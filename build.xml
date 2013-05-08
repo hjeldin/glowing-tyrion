@@ -1,0 +1,156 @@
+<project name="Glowing Tytion" basedir="." default="publish">
+	<!-- Load properties -->
+	<property file="build.properties"/>
+
+	<property name="lib.dir" value="lib"/>
+	<property name="res.dir" value="res"/>
+	<property name="publish.dir" value="${user.home}/public_html/common/"/>
+	<property name="publish.http" value="http://localhost:8000/common/"/>
+	<property name="log.dir" value="log"/>
+	<!-- Load task definitions e.g. FTP -->
+	<property name="build.dir" value="bin"/>
+
+	<path id="class.path">
+		<fileset dir="${build.dir}"/>
+		<fileset dir="${lib.dir}" includes="*.jar"/>
+		<fileset dir="${publish.dir}"/>
+	</path>	
+
+	<!-- Set variables for build directories -->
+
+	<property name="src.dir" value="src"/>
+	
+	<target name="-init" depends="">
+		<echo>Creating temporary folders...</echo>
+		<mkdir dir="${build.dir}"/>
+	</target>
+	
+	<target name="clean" description="Clean up">
+		<echo>Cleaning up...</echo>
+		<delete dir="${build.dir}"/>
+		<exec executable="/usr/bin/pkill">
+			<arg value="python"></arg>
+		</exec>
+		<exec executable="/usr/bin/pkill">
+			<arg value="rmid"></arg>
+		</exec>
+	</target>
+	
+	<target name="build" depends="-init" description="Build project">
+		<echo>Copying files to build folder...</echo>
+		<!-- <copy todir="${build.dir}">
+			<fileset dir="${src.dir}"/>
+		</copy> -->
+		 <javac srcdir="${src.dir}"
+		        destdir="${build.dir}"
+		        debug="on">
+		 	<classpath refid="class.path"/>
+		 </javac>
+	</target>
+	
+	<target name="publish" depends="build" description="Publish project">
+		<echo>Publishing project to common folder</echo>
+		<rmic base="${build.dir}/" 
+			  includes="**/*Server.class" 
+			  stubversion="1.2">
+			<classpath refid="class.path"/>
+	 	</rmic>
+	 	
+		<move todir="${publish.dir}" overwrite="yes">
+			<fileset dir="${build.dir}">
+				<include name="**/*_Stub.class"></include>
+				<include name="**/*Server.class"></include>
+				<include name="interfaces/*.class"></include>
+				<include name="proxies/*.class"></include>
+			</fileset>
+		</move>
+	</target>
+	
+	<target name="launch" depends="publish" description="Launch codebase and rmid">
+		<exec executable="${res.dir}/launch.sh">
+			<arg value="${publish.dir}/../" />
+	  </exec>
+	</target>
+<!--
+-classpath :/home/accounts/studenti/id092097/public_html/common/ -Djava.rmi.server.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -Dservers.impl.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -Djava.security.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy -Dservers.classeserver=servers.LoginServer -Dservers.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy -Djavax.net.ssl.trustStore=client.keystore -Djavax.net.ssl.keyStore=client.keystore -Djavax.net.ssl.keyStorePassword=client -Djava.rmi.activation.port=5551
+-->
+	<target name="launch-login-server" description="Launches login server">
+		<java classname="servers.SetupLogin" fork="true">
+			<jvmarg value="-Djava.rmi.server.codebase=${publish.http}"/>
+			<jvmarg value="-Dservers.impl.codebase=${publish.http}"/>
+			<jvmarg value="-Dservers.classeserver=servers.LoginServer"/>
+			<jvmarg value="-Dservers.policy=${user.home}/public_html/common/rmid.policy"/>
+			<jvmarg value="-Djavax.net.ssl.trustStore=client.keyStore"/>
+			<jvmarg value="-Djavax.net.ssl.keyStore=client.keyStore"/>
+			<jvmarg value="-Djavax.net.ssl.keyStorePassword=client"/>
+			<jvmarg value="-Djava.rmi.activation.port=5551"/>
+			<jvmarg value="-Djava.security.policy=${user.home}/public_html/common/rmid.policy"/>
+			<classpath>
+				<pathelement path="${publish.dir}"/>
+				<pathelement path="${build.dir}"/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="launch-game-server" description="Launches game server">
+		<java classname="servers.SetupGame" fork="true">
+			<jvmarg value="-Djava.rmi.server.codebase=${publish.http}"/>
+			<jvmarg value="-Dservers.impl.codebase=${publish.http}"/>
+			<jvmarg value="-Dservers.classeserver=servers.GameServer"/>
+			<jvmarg value="-Dservers.policy=${user.home}/public_html/common/rmid.policy"/>
+			<jvmarg value="-Djavax.net.ssl.trustStore=client.keyStore"/>
+			<jvmarg value="-Djavax.net.ssl.keyStore=client.keyStore"/>
+			<jvmarg value="-Djavax.net.ssl.keyStorePassword=client"/>
+			<jvmarg value="-Djava.rmi.activation.port=5551"/>
+			<jvmarg value="-Djava.security.policy=${user.home}/public_html/common/rmid.policy"/>
+			<classpath>
+				<pathelement path="${publish.dir}"/>
+				<pathelement path="${build.dir}"/>
+			</classpath>
+		</java>
+	</target>
+
+<!-- 
+	-Djavax.net.ssl.trustStore=client.keystore -Djavax.net.ssl.keyStore=client.keystore -Djavax.net.ssl.keyStorePassword=client -Djava.security.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy
+-->
+	<target name="aaa_testinternet" depends="build" description="lol catz">
+		<java classname="game.TestInternet" fork="true">
+			<classpath>
+				<pathelement path="${build.dir}"/>
+				<pathelement path="${lib.dir}/gson-2.2.3.jar" />
+				<pathelement path="${lib.dir}/lwjgl.jar" />
+				<pathelement path="${lib.dir}/slick.jar" />
+			</classpath>
+		</java>
+	</target>
+	<target name="aaa_visualizeInterent" depends="build" description="lol catz">
+		<java classname="game.VisualizeNet" fork="true">
+			<sysproperty key="java.library.path" 
+             value="${lib.dir}/native"/> 
+			<classpath>
+				<pathelement path="${build.dir}"/>
+				<pathelement path="${lib.dir}/gson-2.2.3.jar" />
+				<pathelement path="${lib.dir}/lwjgl.jar" />
+				<pathelement path="${lib.dir}/slick.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<target name="login-frame" depends="build" description="Launch the loginframe">
+		<echo>Launching with: ${lib.dir} and ${java.library.path};${lib.dir}/native/</echo>
+		<exec executable="${res.dir}/launch-frame.sh">
+		</exec>
+		<!--<java classname="game.LoginFrame" fork="true">
+			<jvmarg value="-Djava.security.policy=${user.home}/public_html/common/rmid.policy"/>
+			<jvmarg value="-Djava.library.path=${java.library.path};/home/hjeldin/projects/glowing-tyrion/lib/native/liblwjgl.so;/home/hjeldin/projects/glowing-tyrion/lib/native/liblwjgl64.so;/home/hjeldin/projects/glowing-tyrion/lib/native" />
+			<sysproperty key="DEBUG" value="true"/>
+			<classpath>
+				<pathelement path="${build.dir}"/>
+				<pathelement path="${publish.dir}"/>
+				<pathelement path="/home/hjeldin/projects/glowing-tyrion/lib/lwjgl.jar"/>
+				<pathelement path="/home/hjeldin/projects/glowing-tyrion/lib/lwjgl_util.jar"/>
+				<pathelement path="/home/hjeldin/projects/glowing-tyrion/lib/slick.jar"/>
+			</classpath>
+		</java>-->
+	</target>
+</project>

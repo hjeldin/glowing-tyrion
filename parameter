@@ -1,0 +1,17 @@
+setupLogin
+
+-classpath :/home/accounts/studenti/id092097/public_html/common/ -Djava.rmi.server.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -Dservers.impl.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -Djava.security.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy -Dservers.classeserver=servers.LoginServer -Dservers.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy -Djavax.net.ssl.trustStore=client.keystore -Djavax.net.ssl.keyStore=client.keystore -Djavax.net.ssl.keyStorePassword=client -Djava.rmi.activation.port=5551
+
+setupGame
+
+-classpath :/home/accounts/studenti/id092097/public_html/common/ -Djava.rmi.server.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -Dservers.impl.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -Djava.security.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy -Dservers.classeserver=servers.GameServer -Dservers.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy -Djavax.net.ssl.trustStore=client.keystore -Djavax.net.ssl.keyStore=client.keystore -Djavax.net.ssl.keyStorePassword=client -Djava.rmi.activation.port=5551
+
+LoginFrame
+
+-Djavax.net.ssl.trustStore=client.keystore -Djavax.net.ssl.keyStore=client.keystore -Djavax.net.ssl.keyStorePassword=client -Djava.security.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy
+
+
+
+commands:
+-----------------------
+rmid -log ~/workspace/TestGame/log/ -J-Djava.rmi.server.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -J-Djava.security.policy=/home/accounts/studenti/id092097/workspace/TestGame/policy -port 5551

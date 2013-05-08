@@ -1,0 +1,2 @@
+#!/bin/bash
+java -classpath :/home/hjeldin/public_html/common:/home/hjeldin/projects/glowing-tyrion/bin:/home/hjeldin/projects/glowing-tyrion/lib/* -Djava.security.policy=/home/hjeldin/public_html/common/rmid.policy -Djava.library.path=/home/hjeldin/projects/glowing-tyrion/lib/native game.LoginFrame

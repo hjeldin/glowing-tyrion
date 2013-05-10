@@ -8,24 +8,26 @@ import java.sql.SQLException;
 public class DataManager {
 	public static DataManager dm;
 	Connection conn = null;
-	public static DataManager getInstance() throws SQLException{
-		if(dm==null)
+
+	public static DataManager getInstance() throws SQLException {
+		if (dm == null)
 			dm = new DataManager();
-		
+
 		return dm;
 	}
-	
-	private DataManager() throws SQLException{
+
+	private DataManager() throws SQLException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		conn = DriverManager.getConnection("jdbc:mysql://pluto.pwrweb.it/uplink","root", "vogedrukut");
+		conn = DriverManager.getConnection(
+				"jdbc:mysql://pluto.pwrweb.it/uplink", "root", "vogedrukut");
 	}
-	
-	public void closeConnection(){
+
+	public void closeConnection() {
 		try {
 			conn.close();
 		} catch (SQLException e) {
@@ -33,15 +35,18 @@ public class DataManager {
 			e.printStackTrace();
 		}
 	}
-	
-	public boolean checkUser(String username, String password) throws SQLException{
-		
+
+	public boolean checkUser(String username, String password)
+			throws SQLException {
+
 		java.sql.Statement st = conn.createStatement();
-		ResultSet res = st.executeQuery("SELECT * FROM users WHERE username = '"+username+"' AND password = '"+ password +"' ");
+		ResultSet res = st
+				.executeQuery("SELECT * FROM users WHERE username = '"
+						+ username + "' AND password = '" + password + "' ");
 		while (res.next()) {
 			return true;
 		}
-		
+
 		return false;
 	}
 }

@@ -1,6 +1,7 @@
 package proxies;
 
 import interfaces.IGame;
+import interfaces.IGame2;
 import interfaces.ILogin;
 import interfaces.IRemoteListener;
 
@@ -12,27 +13,37 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Properties;
 import java.util.Vector;
-public class ServerProxy implements Remote, ILogin, IGame, IRemoteListener, Serializable{
-	/**
-	 * 
-	 */
+
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
+
+import servers.MobileServer;
+
+public class ServerProxy implements Remote, ILogin, IGame, IGame2, Serializable{
+
 	private static final long serialVersionUID = 1L;
 	ILogin LoginServerStub;
 	IGame GameServerStub;
+	IGame2 GameServerStub2;
 	
-	public ServerProxy(){
-		System.setSecurityManager(new RMISecurityManager());
+	public ServerProxy() throws RemoteException{
 		System.out.println("Created server proxy");
 		try {
+			UnicastRemoteObject.exportObject(this, 3333); // esporta su JRMP
+			PortableRemoteObject.exportObject(this); // esporta su IIOP
 			//SslRMIClientSocketFactory csf = new SslRMIClientSocketFactory();
+			//Registry registry = LocateRegistry.getRegistry("localhost", 5551, new SslRMIClientSocketFactory());
 			Registry registry = LocateRegistry.getRegistry("localhost", 5551);
 			InetAddress ip = InetAddress.getLocalHost();
 			String ipp = ip.getHostAddress().toString();
 			LoginServerStub = (ILogin)registry.lookup("//"+ipp+":5551/LoginServer");
 			GameServerStub = (IGame)registry.lookup("//"+ipp+":5551/GameServer");
+			GameServerStub2 = (IGame2)registry.lookup("//"+ipp+":5551/GameServer");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -53,7 +64,7 @@ public class ServerProxy implements Remote, ILogin, IGame, IRemoteListener, Seri
          }
          return buf.toString();
      }
-
+	
      public static String SHA1(String text) throws NoSuchAlgorithmException,UnsupportedEncodingException  {
 	     MessageDigest md = MessageDigest.getInstance("SHA-1");
 	     byte[] sha1hash = new byte[40];
@@ -81,8 +92,8 @@ public class ServerProxy implements Remote, ILogin, IGame, IRemoteListener, Seri
 	}
 	
 	@Override
-	public void addActiveNode() throws RemoteException {
-		GameServerStub.addActiveNode((IRemoteListener)this);
+	public void addActiveNode(IRemoteListener l) throws RemoteException {
+		GameServerStub2.addActiveNode(l);
 	}
 
 	@Override
@@ -96,29 +107,44 @@ public class ServerProxy implements Remote, ILogin, IGame, IRemoteListener, Seri
 	}
 
 	@Override
-	public void removeActiveNode() throws RemoteException {
-		GameServerStub.removeActiveNode(this);
-		
-	}
-
-	@Override
-	public void remoteEvent(Object obj) throws RemoteException {
-		System.out.println("HELLOOOO!");
-	}
-
-	@Override
-	public void addActiveNode(IRemoteListener l) throws RemoteException {
-		
-	}
-
-	@Override
 	public void removeActiveNode(IRemoteListener l) throws RemoteException {
+		GameServerStub2.removeActiveNode(l);
 		
 	}
 
+	@Override
 	public String register(String username, String password, String publickey) throws RemoteException {
 		return LoginServerStub.register(username, password, publickey);
-		//return "";
+	}
+	
+	public static void main(String args[]) throws Exception {
+		System.setSecurityManager(new RMISecurityManager());
+		ServerProxy sp = new ServerProxy();
+		InetAddress ip = InetAddress.getLocalHost();
+		String ipp = ip.getHostAddress().toString();
+		
+		//RMI Binding
+		Properties p_jrmp = new Properties();
+		p_jrmp.put("java.naming.factory.initial", "com.sun.jndi.rmi.registry.RegistryContextFactory");
+		p_jrmp.put("java.naming.provider.url", "rmi://"+ipp+":2222");
+		InitialContext c_jrmp = new InitialContext(p_jrmp);
+		c_jrmp.rebind("ServerProxy", sp);
+		
+		//COSNaming Binding
+		Properties p_iiop = new Properties();
+		p_iiop.put("java.naming.factory.initial", "com.sun.jndi.cosnaming.CNCtxFactory");
+		p_iiop.put("java.naming.provider.url", "iiop://"+ipp+":5555");
+		InitialContext c_iiop = new InitialContext(p_iiop);
+		c_iiop.rebind("ServerProxy", sp);
 	}
 
+	@Override
+	public boolean infect(String nodeIp, String playerIp) throws RemoteException {
+		return GameServerStub.infect(nodeIp, playerIp);
+	}
+
+	@Override
+	public MobileServer sendServer(String ip) throws RemoteException {
+		return GameServerStub.sendServer(ip);
+	}
 }

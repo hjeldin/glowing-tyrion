@@ -5,6 +5,7 @@ public class Network
 	public NodeData gateway;
 	public Vector<NodeData> nodes;
 	private Vector<Node> vis_node;
+	
 	public Network(){
 		nodes = new Vector<NodeData>();
 		vis_node = new Vector<Node>();
@@ -43,6 +44,10 @@ public class Network
 		}
 		tmpStr += gateway.toString();
 		return tmpStr;
+	}
+	
+	public Vector<Node> getVis_node() {
+		return vis_node;
 	}
 
 }

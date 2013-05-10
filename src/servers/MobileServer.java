@@ -1,15 +1,16 @@
 package servers;
 
+import interfaces.IMobile;
+
 import java.io.Serializable;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import interfaces.IMobileServer;
+public class MobileServer extends UnicastRemoteObject implements IMobile, Serializable{
 
-public class MobileServer extends UnicastRemoteObject implements IMobileServer, Serializable{
-
+	private static final long serialVersionUID = 1L;
+	
 	public  MobileServer() throws RemoteException {
 		super();
 	}
@@ -18,7 +19,7 @@ public class MobileServer extends UnicastRemoteObject implements IMobileServer, 
 	public void battle(String ip) throws Exception {
 		InetAddress myIp = InetAddress.getLocalHost();
 		String myIpp = myIp.getHostAddress().toString();
-		System.out.println("Chiamato il metodo bbattle di "+myIpp+" da "+ip);
+		System.out.println("Chiamato il metodo battle di "+myIpp+" da "+ip);
 	}
 	
 }

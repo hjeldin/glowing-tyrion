@@ -18,4 +18,14 @@ public class Internet{
 		for(ISP i : isps) tmpStr += i.toString();
 		return tmpStr;
 	}
+	public NodeData getNode(String ip){
+		
+		for(ISP i : isps)
+			for(Network net : i.networks)
+				for(Node n : net.getVis_node())
+					if (n.nd.ip.equals(ip))
+						return n.nd;
+		
+		return null;
+	}
 }

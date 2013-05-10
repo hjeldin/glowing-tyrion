@@ -4,8 +4,6 @@ import interfaces.ILogin;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,7 +14,6 @@ import java.rmi.activation.Activatable;
 import java.rmi.activation.ActivationException;
 import java.rmi.activation.ActivationID;
 import java.rmi.server.Unreferenced;
-import java.security.KeyStore;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -25,10 +22,10 @@ import java.util.Map;
 public class LoginServer extends Activatable implements ILogin, Unreferenced{
 	private static final long serialVersionUID = 1L;
 	Map<String,String> db = new HashMap<String,String>();
+	Map<String,Boolean> db2 = new HashMap<String,Boolean>();
 	String serverPublicKey = "";
 	//DataManager dm;
 	
-	@SuppressWarnings("unchecked")
 	protected LoginServer(ActivationID id, MarshalledObject obj) throws ActivationException, IOException {
 		//super(id, 5798, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory(null, null, true));
 		super(id, 5798);
@@ -37,33 +34,33 @@ public class LoginServer extends Activatable implements ILogin, Unreferenced{
 	}
 	
 	private void loadDB() throws IOException{
-		FileReader fstream = new FileReader(System.getProperty("user.dir")+"/projects/glowing-tyrion/db.dat");
+		FileReader fstream = new FileReader(System.getProperty("user.dir")+"/workspace/glowing-tyrion/db.dat");
 		BufferedReader in = new BufferedReader(fstream);
 		String tmpStr = "";
 		while((tmpStr = in.readLine()) != null){
-			String[] userPass = tmpStr.split("\\|:\\|");
-			if(userPass.length != 1){
-				String username = userPass[0];
-				String password = userPass[1];
+			String[] userPassAdmin = tmpStr.split("\\|:\\|");
+			if(userPassAdmin.length != 1){
+				String username = userPassAdmin[0];
+				String password = userPassAdmin[1];
+				Boolean isAdmin = userPassAdmin[2].equals("1"); 
 				db.put(username, password);
+				db2.put(username, isAdmin);
 			}
 		}
 		in.close();
-		fstream.close();
-		
+		fstream.close();		
 	}
 
 	@Override
 	public boolean login(String username, String password) {
-		System.out.println(new java.util.Date() + " invoked login by " +
-  		       /*SecureRMISocketFactory.getLocalThreadLastReadPrincipal()+ */" with username: " + username + " and prehashed pass");
-		
+		System.out.println(new java.util.Date() + " invoked login by " + " with username: " + username + " and prehashed pass");
+		if(db2.get(username))
+			System.out.println(username + " is Admin!");
 		try {
 			//return dm.checkUser(username,password);
 			return db.get(username).equals(password);
 				
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -71,13 +68,11 @@ public class LoginServer extends Activatable implements ILogin, Unreferenced{
 
 	@Override
 	public void unreferenced() {
-		// TODO Auto-generated method stub
 		try {
 			//Naming.unbind("//:5/LoginServer");
 			inactive(getID());
 			System.gc();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -85,9 +80,8 @@ public class LoginServer extends Activatable implements ILogin, Unreferenced{
 	public String register(String username, String password, String publickey) throws RemoteException {
 		try {
 			addToDB(username, password);
-			//TODO: writeClientPublicKey(publickey, username);
+			//NOT-TODO: writeClientPublicKey(publickey, username);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return serverPublicKey;
@@ -96,10 +90,9 @@ public class LoginServer extends Activatable implements ILogin, Unreferenced{
 	private void loadPublicKey() throws IOException{
 		//String serverpublickey = System.getProperty("ssl.publicKey");
 		String serverpublickey = "server.public-key";
-		FileReader fstream = new FileReader(System.getProperty("user.dir")+"/projects/glowing-tyrion/"+serverpublickey);
+		FileReader fstream = new FileReader(System.getProperty("user.dir")+"/workspace/glowing-tyrion/"+serverpublickey);
 		BufferedReader in = new BufferedReader(fstream);
 		String tmpStr = "";
-		//Vector<String> toRet = new Vector<String>();
 		while((tmpStr = in.readLine()) != null){
 			serverPublicKey += tmpStr;
 		}
@@ -107,8 +100,7 @@ public class LoginServer extends Activatable implements ILogin, Unreferenced{
 		fstream.close();
 	}
 	
-	@SuppressWarnings("unused")
-	private void writeClientPublicKey(String key, String username) throws Exception
+	/*private void writeClientPublicKey(String key, String username) throws Exception
 	{
 		FileWriter fstream = new FileWriter("temp.dat");
 		BufferedWriter out = new BufferedWriter(fstream);
@@ -121,10 +113,10 @@ public class LoginServer extends Activatable implements ILogin, Unreferenced{
 		keyStore.load(new FileInputStream("server.keystore"), "server".toCharArray());
 		//TODO: LOAD FUCKING KEY!
 		keyStore.store(new FileOutputStream("server.keystore"), "server".toCharArray());
-	}
+	}*/
 
 	private void addToDB(String username, String password) throws Exception{
-		FileWriter fstream = new FileWriter(System.getProperty("user.dir")+"/projects/glowing-tyrion/db.dat",true);
+		FileWriter fstream = new FileWriter(System.getProperty("user.dir")+"/workspace/glowing-tyrion/db.dat",true);
 		BufferedWriter out = new BufferedWriter(fstream);
 		out.write(username+"|:|"+SHA1(password));
 		out.close();

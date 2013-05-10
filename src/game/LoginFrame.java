@@ -1,5 +1,7 @@
 package game;
 
+import interfaces.ILogin;
+
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Dimension;
@@ -11,6 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
+import java.net.InetAddress;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -19,16 +24,16 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
-import proxies.ServerProxy;
-
 public class LoginFrame extends JFrame implements ActionListener, KeyListener{
 	TextField login,password;
 	Button doLogin;
 	private static final long serialVersionUID = 1L;
 	Label et=new Label();
-	ServerProxy proxy;
-	public void init () {
-		proxy = new ServerProxy();
+	ILogin ServerProxyStub;
+	public void init () throws Exception {
+		InetAddress ip = InetAddress.getLocalHost();
+		String ipp = ip.getHostAddress().toString();
+		ServerProxyStub = (ILogin)Naming.lookup("//"+ipp+":2222/ServerProxy");
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,12 +66,12 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
 		setVisible(true);
 	}
 	
-	public LoginFrame()
+	public LoginFrame() throws Exception
 	{
 		init();
 	}
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 		new LoginFrame();
 	}
 
@@ -76,38 +81,49 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
 		if((arg0.getSource() == "login" || arg0.getSource() == "password") );//&& arg0.getActionCommand()
 		 if (arg0.getSource() == doLogin ){
 			 System.out.println("Executing login");
-			 if(proxy.login(login.getText(), password.getText()))
-			 {
-				 setVisible(false);
-				 DisplayExample l = new DisplayExample();
-				 l.start();
-				 dispose();
-				 dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-			 } else {
-				 
-			 }
+			 try {
+				if(ServerProxyStub.login(login.getText(), password.getText()))
+				 {
+					 setVisible(false);
+					 DisplayExample l = new DisplayExample();
+					 l.start();
+					 dispose();
+					 dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+				 } else {
+					 
+				 }
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		 }		
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
+			
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
 		if(e.getKeyChar()=='\n' && (e.getSource()==login || e.getSource()==password)){
 			System.out.println("Executing login");
-			 if(proxy.login(login.getText(), password.getText()))
-			 {
-				 setVisible(false);
-				 DisplayExample l = new DisplayExample();
-				 l.start();
-				 dispose();
-				 dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-			 } else {
-				 
-			 }
+			 try {
+				if(ServerProxyStub.login(login.getText(), password.getText()))
+				 {
+					 setVisible(false);
+					 DisplayExample l = new DisplayExample();
+					 l.start();
+					 dispose();
+					 dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+				 } else {
+					 
+				 }
+			} catch (RemoteException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 	}

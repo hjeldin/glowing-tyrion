@@ -1,10 +1,13 @@
 package game;
 import helpers.Text;
+import interfaces.IGame;
 
 import java.awt.Font;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.Vector;
 
@@ -19,16 +22,9 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.util.ResourceLoader;
 
-import proxies.ServerProxy;
-
 
 public class DisplayExample {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private class ServerThread implements Runnable{
 		private DisplayExample de;
 		public ServerThread(DisplayExample i){
@@ -36,9 +32,11 @@ public class DisplayExample {
 			
 		}
 		public void run() {
-			gsp = new ServerProxy();
 			try {
-				gsp.addActiveNode();
+				InetAddress ip = InetAddress.getLocalHost();
+				String ipp = ip.getHostAddress().toString();
+				gsp = (IGame)Naming.lookup("//"+ipp+":2222/ServerProxy");
+				//gsp.addActiveNode();
 				gsp.updateMap(clients);
 				de.activeNodes = gsp.getActiveNodes();
 			} catch (Exception e) {
@@ -50,7 +48,7 @@ public class DisplayExample {
 	}
 	
 	
-	public static ServerProxy gsp = null;
+	public static IGame gsp = null;
 	
 	public int nClients = 10;
 	public int centerX = 400;
@@ -99,19 +97,11 @@ public class DisplayExample {
 				toAdd.g = 0.0f;
 				toAdd.b = 0.0f;
 				toAdd.a = 1.0f;
-				toAdd.text = s;
+				//toAdd.text = s;
 				nodes.add(toAdd);
 				k++;
 			}
 			
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
 			extIP = NetworkScanner.getIp();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -226,12 +216,12 @@ public class DisplayExample {
 			Display.sync(60);
 		}
 		
-		try {
+		/*try {
 			DisplayExample.gsp.removeActiveNode();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		Display.destroy();
 	}
 	

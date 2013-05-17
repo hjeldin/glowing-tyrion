@@ -3,10 +3,8 @@ import helpers.Text;
 import interfaces.IGame;
 
 import java.awt.Font;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.Vector;
@@ -33,12 +31,12 @@ public class DisplayExample {
 		}
 		public void run() {
 			try {
-				InetAddress ip = InetAddress.getLocalHost();
+				/*InetAddress ip = InetAddress.getLocalHost();
 				String ipp = ip.getHostAddress().toString();
-				gsp = (IGame)Naming.lookup("//"+ipp+":2222/ServerProxy");
+				gsp = (IGame)Naming.lookup("//"+ipp+":2222/ProxyServer");*/
 				//gsp.addActiveNode();
-				gsp.updateMap(clients);
-				de.activeNodes = gsp.getActiveNodes();
+				//gsp.updateMap(clients);
+				//de.activeNodes = gsp.getActiveNodes();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -48,7 +46,7 @@ public class DisplayExample {
 	}
 	
 	
-	public static IGame gsp = null;
+	public IGame gsp = null;
 	
 	public int nClients = 10;
 	public int centerX = 400;
@@ -67,10 +65,11 @@ public class DisplayExample {
 	int fps;
 	/** last fps time */
 	long lastFPS;
-	public DisplayExample(){
+	public DisplayExample(IGame gsp){
 		hud =  new HUD();
 		nodes = new Vector<Node>();
 		clients = new Vector<String>();
+		this.gsp = gsp;
 		try {
 			
 			try{
@@ -104,7 +103,6 @@ public class DisplayExample {
 			
 			extIP = NetworkScanner.getIp();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ServerThread st = new ServerThread(this);
@@ -208,7 +206,6 @@ public class DisplayExample {
 		    try {
 				activeNodes = gsp.getActiveNodes();
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		    hud.drawString("Active Nodes:"+activeNodes,200,5);
@@ -219,7 +216,6 @@ public class DisplayExample {
 		/*try {
 			DisplayExample.gsp.removeActiveNode();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
 		Display.destroy();
@@ -280,11 +276,11 @@ public class DisplayExample {
     }
 
 	
-	public static void main(String[] argv) {
+	/*public static void main(String[] argv) {
 		
 		DisplayExample displayExample = new DisplayExample();
 		displayExample.start();
-	}
+	}*/
 
 	public void updateMap(Vector<String> obj) {
 		for(String s : obj){

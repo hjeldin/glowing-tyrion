@@ -14,12 +14,19 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Properties;
 
+import javax.rmi.ssl.SslRMIClientSocketFactory;
+import javax.rmi.ssl.SslRMIServerSocketFactory;
+
 public class SetupGame {
 	public static void main(String args[]) {
 		// INIZIALIZZAZIONI
 		String policyGroup = System.getProperty("servers.policy");
 		String implCodebase = System.getProperty("servers.impl.codebase");
 		String classeserver = System.getProperty("servers.classeserver");
+		String trustStore = System.getProperty("javax.net.ssl.trustStore");
+		String trustStorePassword = System.getProperty("javax.net.ssl.trustStorePassword");
+		String keyStore = System.getProperty("javax.net.ssl.keyStore");
+		String keyStorePassword = System.getProperty("javax.net.ssl.keyStorePassword");
 		// LANCIO IL SECURITY MANAGER
 		System.setSecurityManager(new RMISecurityManager());
 		try {
@@ -27,6 +34,10 @@ public class SetupGame {
 			prop.put("java.security.policy", policyGroup);
 			prop.put("servers.impl.codebase", implCodebase);
 			prop.put("java.class.path", "no_classpath");
+			prop.put("javax.net.ssl.trustStore", trustStore);
+			prop.put("javax.net.ssl.trustStorePassword", trustStorePassword);
+			prop.put("javax.net.ssl.keyStore", keyStore);
+			prop.put("javax.net.ssl.keyStorePassword", keyStorePassword);
 			// FASE 1: CREAZIONE DEL GRUPPO DI ATTIVAZIONE
 			ActivationGroupDesc groupDesc = new ActivationGroupDesc(prop, null);
 			// FASE 2: REGISTRAZIONE DEL GRUPPO DI ATTIVAZIONE
@@ -53,11 +64,9 @@ public class SetupGame {
 					.println("Faccio il binding dello stub del server attivabile nel registro RMI alla porta 1098 dove gia' si trova registrato il sistema di attivazione ");
 			InetAddress ip = InetAddress.getLocalHost();
 			String ipp = ip.getHostAddress().toString();
-			// Registry registry = LocateRegistry.createRegistry(5552, new
-			// SslRMIClientSocketFactory(), new SslRMIServerSocketFactory(null,
-			// null, true));
-			Registry registry = LocateRegistry.getRegistry("localhost", 5551);
-			registry.bind("//" + ipp + ":5551/GameServer", (Remote) stub_server);
+			//Registry registry = LocateRegistry.createRegistry(5552, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory(null, null, true));
+			Registry registry = LocateRegistry.getRegistry("localhost", 5552, new SslRMIClientSocketFactory());
+			registry.bind("//" + ipp + ":5552/GameServer", (Remote) stub_server);
 			// Thread.sleep(10000);
 		} catch (Throwable t) {
 			t.printStackTrace();

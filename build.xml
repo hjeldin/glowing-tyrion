@@ -59,11 +59,16 @@
 		<move todir="${publish.dir}" overwrite="yes">
 			<fileset dir="${build.dir}">
 				<include name="**/*_Stub.class"></include>
-				<include name="**/*Server.class"></include>
-				<include name="interfaces/*.class"></include>
-				<include name="proxies/*.class"></include>
+				<include name="servers/*Server.class"></include>
 			</fileset>
 		</move>
+		
+		<copy todir="${publish.dir}" overwrite="yes">
+			<fileset dir="${build.dir}">
+				<include name="interfaces/*.class"></include>
+				<include name="proxies/*Server.class"></include>
+			</fileset>
+		</copy>
 	</target>
 	
 	<target name="launch" depends="publish" description="Launch codebase and rmid">

@@ -15,6 +15,9 @@ import java.rmi.server.Unreferenced;
 import java.util.Date;
 import java.util.Vector;
 
+import javax.rmi.ssl.SslRMIClientSocketFactory;
+import javax.rmi.ssl.SslRMIServerSocketFactory;
+
 public class GameServer extends Activatable implements IGame, IGame2, Unreferenced{
 	private static final long serialVersionUID = 1L;
 	private int currentActiveNodes = 0;
@@ -23,8 +26,8 @@ public class GameServer extends Activatable implements IGame, IGame2, Unreferenc
 	private Internet internet;
 	
 	protected GameServer(ActivationID id, MarshalledObject obj) throws ActivationException, RemoteException {
-		//super(id, 3788, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory(null, null, true));
-		super(id, 3788);
+		super(id, 3788, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory(null, null, true));
+		//super(id, 3788);
 		nodes = new Vector<String>();
 		listeners = new Vector<IRemoteListener>();
 	}
@@ -46,24 +49,24 @@ public class GameServer extends Activatable implements IGame, IGame2, Unreferenc
 		}
 	}
 
-	/*@Override
+	
 	public void addActiveNode() throws RemoteException {
 		System.out.println("Adding active node");
 		//listeners.add(l);
 		currentActiveNodes++;
-	}*/
+	}
 
 	@Override
 	public int getActiveNodes() throws RemoteException {
 		return currentActiveNodes;
 	}
 
-	/*@Override
+	
 	public void removeActiveNode() throws RemoteException {
 		System.out.println("Removing active node");
 		//listeners.remove(l);
 		currentActiveNodes--;
-	}*/
+	}
 	
 	@Override
 	public void unreferenced() {
@@ -91,10 +94,10 @@ public class GameServer extends Activatable implements IGame, IGame2, Unreferenc
 		return false;
 	}
 	
-	public MobileServer sendServer(String ip) throws RemoteException{
+	/*public MobileServer sendServer(String ip) throws RemoteException{
 		MobileServer ms = new MobileServer();
 		return ms;
-	}
+	}*/
 
 	@Override
 	public void addActiveNode(IRemoteListener l) throws RemoteException {

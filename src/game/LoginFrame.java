@@ -12,9 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
-import java.net.InetAddress;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 import javax.swing.BoxLayout;
@@ -29,12 +26,13 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
 	Button doLogin;
 	private static final long serialVersionUID = 1L;
 	Label et=new Label();
-	ILogin ServerProxyStub;
+	ILogin LoginStub;
+	boolean LoginDone;
+	
 	public void init () throws Exception {
-		InetAddress ip = InetAddress.getLocalHost();
+		/*InetAddress ip = InetAddress.getLocalHost();
 		String ipp = ip.getHostAddress().toString();
-		ServerProxyStub = (ILogin)Naming.lookup("//"+ipp+":2222/ServerProxy");
-		
+		ServerProxyStub = (ILogin)Naming.lookup("//"+ipp+":2222/ProxyServer");*/
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		doLogin = new Button("Login");
@@ -66,14 +64,16 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
 		setVisible(true);
 	}
 	
-	public LoginFrame() throws Exception
-	{
-		init();
+	public LoginFrame(ILogin LoginStub) throws Exception
+	{	
+		this.LoginStub = LoginStub;
+		this.LoginDone = false;
+		//init();
 	}
 	
-	public static void main(String[] args) throws Exception{
+	/*public static void main(String[] args) throws Exception{
 		new LoginFrame();
-	}
+	}*/
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -82,18 +82,18 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
 		 if (arg0.getSource() == doLogin ){
 			 System.out.println("Executing login");
 			 try {
-				if(ServerProxyStub.login(login.getText(), password.getText()))
+				if(LoginStub.login(login.getText(), password.getText()))
 				 {
-					 setVisible(false);
-					 DisplayExample l = new DisplayExample();
-					 l.start();
-					 dispose();
-					 dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+					this.LoginDone = true;
+					setVisible(false);
+					/*DisplayExample l = new DisplayExample();
+					l.start();*/
+					dispose();
+					//dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 				 } else {
 					 
 				 }
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		 }		
@@ -106,22 +106,21 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		if(e.getKeyChar()=='\n' && (e.getSource()==login || e.getSource()==password)){
 			System.out.println("Executing login");
 			 try {
-				if(ServerProxyStub.login(login.getText(), password.getText()))
+				if(LoginStub.login(login.getText(), password.getText()))
 				 {
-					 setVisible(false);
-					 DisplayExample l = new DisplayExample();
-					 l.start();
-					 dispose();
-					 dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+					this.LoginDone = true;
+					setVisible(false);
+					/*DisplayExample l = new DisplayExample();
+					l.start();*/
+					dispose();
+					//dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 				 } else {
 					 
 				 }
 			} catch (RemoteException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -130,7 +129,5 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 }

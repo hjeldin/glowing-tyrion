@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.rmi.RMISecurityManager;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -21,29 +20,28 @@ import java.util.Vector;
 
 import javax.naming.InitialContext;
 import javax.rmi.PortableRemoteObject;
+import javax.rmi.ssl.SslRMIClientSocketFactory;
 
-import servers.MobileServer;
-
-public class ServerProxy implements Remote, ILogin, IGame, IGame2, Serializable{
+public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, IGame2, Serializable{
 
 	private static final long serialVersionUID = 1L;
 	ILogin LoginServerStub;
 	IGame GameServerStub;
 	IGame2 GameServerStub2;
 	
-	public ServerProxy() throws RemoteException{
+	public ProxyServer() throws RemoteException{
 		System.out.println("Created server proxy");
 		try {
 			UnicastRemoteObject.exportObject(this, 3333); // esporta su JRMP
-			PortableRemoteObject.exportObject(this); // esporta su IIOP
+			//PortableRemoteObject.exportObject(this); // esporta su IIOP
 			//SslRMIClientSocketFactory csf = new SslRMIClientSocketFactory();
-			//Registry registry = LocateRegistry.getRegistry("localhost", 5551, new SslRMIClientSocketFactory());
+			Registry sslRegistry = LocateRegistry.getRegistry("localhost", 5552, new SslRMIClientSocketFactory());
 			Registry registry = LocateRegistry.getRegistry("localhost", 5551);
 			InetAddress ip = InetAddress.getLocalHost();
 			String ipp = ip.getHostAddress().toString();
 			LoginServerStub = (ILogin)registry.lookup("//"+ipp+":5551/LoginServer");
-			GameServerStub = (IGame)registry.lookup("//"+ipp+":5551/GameServer");
-			GameServerStub2 = (IGame2)registry.lookup("//"+ipp+":5551/GameServer");
+			GameServerStub = (IGame)sslRegistry.lookup("//"+ipp+":5552/GameServer");
+			GameServerStub2 = (IGame2)sslRegistry.lookup("//"+ipp+":5552/GameServer");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -119,7 +117,7 @@ public class ServerProxy implements Remote, ILogin, IGame, IGame2, Serializable{
 	
 	public static void main(String args[]) throws Exception {
 		System.setSecurityManager(new RMISecurityManager());
-		ServerProxy sp = new ServerProxy();
+		ProxyServer sp = new ProxyServer();
 		InetAddress ip = InetAddress.getLocalHost();
 		String ipp = ip.getHostAddress().toString();
 		
@@ -128,7 +126,7 @@ public class ServerProxy implements Remote, ILogin, IGame, IGame2, Serializable{
 		p_jrmp.put("java.naming.factory.initial", "com.sun.jndi.rmi.registry.RegistryContextFactory");
 		p_jrmp.put("java.naming.provider.url", "rmi://"+ipp+":2222");
 		InitialContext c_jrmp = new InitialContext(p_jrmp);
-		c_jrmp.rebind("ServerProxy", sp);
+		c_jrmp.rebind("ProxyServer", sp);
 		
 		//COSNaming Binding
 		Properties p_iiop = new Properties();
@@ -143,8 +141,8 @@ public class ServerProxy implements Remote, ILogin, IGame, IGame2, Serializable{
 		return GameServerStub.infect(nodeIp, playerIp);
 	}
 
-	@Override
+	/*@Override
 	public MobileServer sendServer(String ip) throws RemoteException {
 		return GameServerStub.sendServer(ip);
-	}
+	}*/
 }

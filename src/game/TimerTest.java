@@ -1,4 +1,6 @@
 package game;
+import java.io.Serializable;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
@@ -6,7 +8,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
  
-public class TimerTest {
+public class TimerTest implements Serializable{
  
 	/** position of quad */
 	float x = 400, y = 300;

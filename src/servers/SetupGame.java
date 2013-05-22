@@ -15,7 +15,6 @@ import java.rmi.registry.Registry;
 import java.util.Properties;
 
 import javax.rmi.ssl.SslRMIClientSocketFactory;
-import javax.rmi.ssl.SslRMIServerSocketFactory;
 
 public class SetupGame {
 	public static void main(String args[]) {

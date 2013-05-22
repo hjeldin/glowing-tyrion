@@ -9,9 +9,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
-public class TestInternet
+public class TestInternet implements Serializable
 {
 
 	public static void main(String args[]) 

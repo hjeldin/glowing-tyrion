@@ -1,6 +1,7 @@
 package game;
+import java.io.Serializable;
 import java.util.Vector;
-public class Internet{
+public class Internet implements Serializable{
 	public Vector<ISP> isps;
 	public Internet(){
 		isps = new Vector<ISP>();

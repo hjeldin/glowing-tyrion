@@ -3,7 +3,6 @@ package servers;
 import game.Internet;
 import game.NodeData;
 import interfaces.IGame;
-import interfaces.IGame2;
 import interfaces.IRemoteListener;
 
 import java.rmi.MarshalledObject;
@@ -18,7 +17,7 @@ import java.util.Vector;
 import javax.rmi.ssl.SslRMIClientSocketFactory;
 import javax.rmi.ssl.SslRMIServerSocketFactory;
 
-public class GameServer extends Activatable implements IGame, IGame2, Unreferenced{
+public class GameServer extends Activatable implements IGame, Unreferenced{
 	private static final long serialVersionUID = 1L;
 	private int currentActiveNodes = 0;
 	private Vector<String> nodes;

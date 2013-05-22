@@ -74,6 +74,7 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 		try {
 			try {
 				System.out.println("sending " + username + " " + SHA1(password));
+				System.out.println(LoginServerStub.toString());
 				return LoginServerStub.login(username, SHA1(password));
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();

@@ -3,13 +3,14 @@ package game;
 import helpers.Text;
 
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.Vector;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.UnicodeFont;
 
-public class HUD {
+public class HUD implements Serializable{
 	public static UnicodeFont fnt;
 	private Rectangle rect;
 	private Vector<Text> texts;

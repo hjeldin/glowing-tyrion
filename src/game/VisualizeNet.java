@@ -14,9 +14,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
-public class VisualizeNet{
+public class VisualizeNet implements Serializable{
 	Gson jsonSerializer;
 	Internet alice ;
 	public VisualizeNet(){

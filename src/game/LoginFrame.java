@@ -1,5 +1,6 @@
 package game;
 
+import interfaces.IClient;
 import interfaces.ILogin;
 
 import java.awt.BorderLayout;
@@ -30,12 +31,13 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener, S
 	Label et=new Label();
 	ILogin LoginStub;
 	boolean LoginDone;
+	IClient c;
 	
-	public void init () throws Exception {
+	public void init (IClient c) throws Exception {
 		/*InetAddress ip = InetAddress.getLocalHost();
 		String ipp = ip.getHostAddress().toString();
 		ServerProxyStub = (ILogin)Naming.lookup("//"+ipp+":2222/ProxyServer");*/
-		
+		this.c = c;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		doLogin = new Button("Login");
 		doLogin.addActionListener(this);
@@ -90,10 +92,11 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener, S
 					setVisible(false);
 					/*DisplayExample l = new DisplayExample();
 					l.start();*/
+					c.actionPerformed(true);
 					dispose();
 					dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 				 } else {
-					 
+					 c.actionPerformed(false);
 				 }
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -115,12 +118,13 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener, S
 				 {
 					this.LoginDone = true;
 					setVisible(false);
-					/*DisplayExample l = new DisplayExample();
-					l.start();*/
+					//DisplayExample l = new DisplayExample();
+					//l.start();
+					c.actionPerformed(true);
 					dispose();
 					dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 				 } else {
-					 
+					 c.actionPerformed(false);
 				 }
 			} catch (RemoteException e1) {
 				e1.printStackTrace();

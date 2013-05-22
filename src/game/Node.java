@@ -1,11 +1,12 @@
 package game;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.UnicodeFont;
 
 
-public class Node {
+public class Node implements Serializable{
 	public NodeData nd;
 	public Rectangle rect = new Rectangle(0,0,10,10);
 	private int y;

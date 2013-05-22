@@ -4,8 +4,7 @@ import interfaces.IGame;
 
 import java.awt.Font;
 import java.io.InputStream;
-import java.net.InetAddress;
-import java.rmi.Naming;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.Vector;
 
@@ -21,7 +20,7 @@ import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.util.ResourceLoader;
 
 
-public class DisplayExample {
+public class DisplayExample implements Serializable{
 	
 	private class ServerThread implements Runnable{
 		private DisplayExample de;
@@ -34,9 +33,9 @@ public class DisplayExample {
 				/*InetAddress ip = InetAddress.getLocalHost();
 				String ipp = ip.getHostAddress().toString();
 				gsp = (IGame)Naming.lookup("//"+ipp+":2222/ProxyServer");*/
-				//gsp.addActiveNode();
-				//gsp.updateMap(clients);
-				//de.activeNodes = gsp.getActiveNodes();
+				/*gsp.addActiveNode();
+				gsp.updateMap(clients);
+				de.activeNodes = gsp.getActiveNodes();*/
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -106,7 +105,7 @@ public class DisplayExample {
 			e.printStackTrace();
 		}
 		ServerThread st = new ServerThread(this);
-		st.run();		
+		st.run();
 	}
 	
 	/** 
@@ -213,11 +212,11 @@ public class DisplayExample {
 			Display.sync(60);
 		}
 		
-		/*try {
-			DisplayExample.gsp.removeActiveNode();
+		try {
+			gsp.removeActiveNode();
 		} catch (RemoteException e) {
 			e.printStackTrace();
-		}*/
+		}
 		Display.destroy();
 	}
 	

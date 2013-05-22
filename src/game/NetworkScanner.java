@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
@@ -14,7 +15,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Vector;
 
-public class NetworkScanner{
+public class NetworkScanner implements Serializable{
 	public static void write(Vector<String> data) throws IOException{
 		FileWriter fstream = new FileWriter("network.dat");
 		BufferedWriter out = new BufferedWriter(fstream);

@@ -1,6 +1,7 @@
 package game;
+import java.io.Serializable;
 import java.util.Vector;
-public class Network
+public class Network implements Serializable
 {
 	public NodeData gateway;
 	public Vector<NodeData> nodes;

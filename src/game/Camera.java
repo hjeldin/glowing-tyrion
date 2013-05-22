@@ -1,8 +1,10 @@
 package game;
 
+import java.io.Serializable;
+
 import org.lwjgl.opengl.GL11;
 
-public class Camera {
+public class Camera implements Serializable{
 	public static float tx;
 	public static float ty;
 	public static float tz;

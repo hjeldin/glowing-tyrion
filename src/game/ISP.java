@@ -1,6 +1,7 @@
 package game;
+import java.io.Serializable;
 import java.util.Vector;
-public class ISP
+public class ISP implements Serializable
 {
 	public String name="";
 	public Vector<Network> networks;

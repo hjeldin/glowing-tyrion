@@ -98,7 +98,7 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener, S
 				 } else {
 					 c.actionPerformed(false);
 				 }
-			} catch (RemoteException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		 }		
@@ -126,7 +126,7 @@ public class LoginFrame extends JFrame implements ActionListener, KeyListener, S
 				 } else {
 					 c.actionPerformed(false);
 				 }
-			} catch (RemoteException e1) {
+			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}

@@ -6,7 +6,10 @@ import interfaces.ILogin;
 
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 public class ClientData implements IClient, Runnable, Serializable{
 	
@@ -31,9 +34,9 @@ public class ClientData implements IClient, Runnable, Serializable{
 		System.out.println("Lookup Done");*/
 	}
 
-	public void actionPerformed(Boolean logged ){
+	public void actionPerformed(Boolean logged ) throws Exception{
 		System.out.println("Login Done");
-		IGame GameStub = (IGame)login_stub;
+		IGame GameStub = (IGame)Naming.lookup("//"+ip+":2222/ProxyServer");;
 		DisplayExample l = new DisplayExample(GameStub);
 		System.out.println("Created DisplayExample");
 		l.start();

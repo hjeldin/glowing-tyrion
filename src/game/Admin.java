@@ -5,6 +5,10 @@ import interfaces.IGame;
 import interfaces.ILogin;
 
 import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Properties;
 
 import javax.naming.InitialContext;
@@ -41,11 +45,28 @@ public class Admin implements IClient{
 		l.start();
 		System.out.println("Window Closed");*/
 	}
-
+	
+	public void run(){
+		try{
+			System.setSecurityManager(new SecurityManager());
+			Admin a = new Admin();
+			Properties p = new Properties();
+			p.put("java.naming.factory.initial", "com.sun.jndi.cosnaming.CNCtxFactory");
+			p.put("java.naming.provider.url", "iiop://"+a.ip+":5555");
+			InitialContext ic = new InitialContext(p);
+			Object objRef = ic.lookup("ServerProxy");
+			a.login_stub = (ILogin)PortableRemoteObject.narrow(objRef, ILogin.class);
+			LoginFrame lf = new LoginFrame(a.login_stub);
+			lf.init(a);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
-	public void actionPerformed(Boolean logged ){
+	public void actionPerformed(Boolean logged ) throws Exception{
 		System.out.println("Login Done");
-		IGame GameStub = (IGame)login_stub;
+		IGame GameStub = (IGame)Naming.lookup("//"+ip+":2222/ProxyServer");;
 		DisplayExample l = new DisplayExample(GameStub);
 		System.out.println("Created DisplayExample");
 		l.start();

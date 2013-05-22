@@ -18,7 +18,6 @@ public class Node implements Serializable{
 	public static UnicodeFont fnt;
 	
 	public void Draw(){
-		System.out.println(getX() + " " + getY());
 		if(nd.active)
 			GL11.glColor4f(r,g,b,a);
 		else
@@ -34,7 +33,7 @@ public class Node implements Serializable{
 	public void renderText(){
 		if(clicked){
 	    	GL11.glEnable(GL11.GL_TEXTURE_2D);
-	    	fnt.drawString(getX(), getY(), nd.ip);
+	    	fnt.drawString(getX(), getY(), nd.ip+"");
 		    GL11.glDisable(GL11.GL_TEXTURE_2D);
 	    }
 	}

@@ -6,10 +6,7 @@ import interfaces.ILogin;
 
 import java.io.Serializable;
 import java.net.InetAddress;
-import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 
 public class ClientData implements IClient, Runnable, Serializable{
 	
@@ -42,7 +39,7 @@ public class ClientData implements IClient, Runnable, Serializable{
 		l.start();
 		System.out.println("Window Closed");
 	}
-
+	
 	@Override
 	public void run() {
 		try{
@@ -51,14 +48,6 @@ public class ClientData implements IClient, Runnable, Serializable{
 			ILogin LoginStub = (ILogin)Naming.lookup("//"+cd.ip+":2222/ProxyServer");
 			LoginFrame lf = new LoginFrame(LoginStub);
 			lf.init(cd);
-			/*while( !lf.LoginDone ){System.out.println(lf.LoginDone);};
-			System.out.println("Login Done");
-			IGame GameStub = (IGame)Naming.lookup("//"+cd.ip+":2222/ProxyServer");
-			System.out.println("Lookup Done");
-			DisplayExample l = new DisplayExample(GameStub);
-			System.out.println("Created DisplayExample");
-			l.start();
-			System.out.println("Window Closed");*/
 		}catch(Exception e){
 			e.printStackTrace();
 		}

@@ -21,29 +21,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 
 public class DisplayExample implements Serializable{
-	
-	private class ServerThread implements Runnable{
-		private DisplayExample de;
-		public ServerThread(DisplayExample i){
-			de = i;
-			
-		}
-		public void run() {
-			try {
-				/*InetAddress ip = InetAddress.getLocalHost();
-				String ipp = ip.getHostAddress().toString();
-				gsp = (IGame)Naming.lookup("//"+ipp+":2222/ProxyServer");*/
-				/*gsp.addActiveNode();
-				gsp.updateMap(clients);
-				de.activeNodes = gsp.getActiveNodes();*/
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-		}
 		
-	}
-	
 	
 	public IGame gsp = null;
 	
@@ -64,6 +42,7 @@ public class DisplayExample implements Serializable{
 	int fps;
 	/** last fps time */
 	long lastFPS;
+	private ClientRemoteListener cdl;
 	public DisplayExample(IGame gsp){
 		hud =  new HUD();
 		nodes = new Vector<Node>();
@@ -96,18 +75,20 @@ public class DisplayExample implements Serializable{
 				toAdd.b = 0.0f;
 				toAdd.a = 1.0f;
 				//toAdd.text = s;
+				toAdd.nd = new NodeData();
 				nodes.add(toAdd);
 				k++;
 			}
-			
+			cdl=new ClientRemoteListener();
+			gsp.addActiveNode(cdl);
 			extIP = NetworkScanner.getIp();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		ServerThread st = new ServerThread(this);
-		st.run();
+
 	}
 	
+
 	/** 
 	 * Calculate how many milliseconds have passed 
 	 * since last frame.
@@ -180,10 +161,15 @@ public class DisplayExample implements Serializable{
 		hud.add(extIP, 5, 5);
 		getDelta();
 		lastFPS = getTime();
+		try{
+			gsp.updateMap(new Vector<String>());
+		}catch(Exception e){
+
+		}
 		while (!Display.isCloseRequested()) {
 			int delta = getDelta();
 			update(delta);
-			
+			cdl.update();
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
 		    // set the color of the quad (R,G,B,A)
 		    for(Node n : nodes){
@@ -203,11 +189,12 @@ public class DisplayExample implements Serializable{
 		    GL11.glEnd();
 		    hud.render();
 		    try {
-				activeNodes = gsp.getActiveNodes();
-			} catch (RemoteException e) {
+		    	//System.out.println(gsp);
+					activeNodes = gsp.getActiveNodes();
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		    hud.drawString("Active Nodes:"+activeNodes,200,5);
+		    hud.drawString("ACTIVE NODES:"+activeNodes,200,5);
 			Display.update();
 			Display.sync(60);
 		}
@@ -232,58 +219,45 @@ public class DisplayExample implements Serializable{
     if (Mouse.isButtonDown(0)) {
 	    int x = Mouse.getX();
 	    int y = 600 - Mouse.getY();
-		for (Node n : nodes){
-			if(n.rect.contains(x, y)){
-				if(n.clicked)
-					n.clicked=false;
-				else 
-					n.clicked = true;
+			for (Node n : nodes){
+				if(n.rect.contains(x, y)){
+					if(n.clicked)
+						n.clicked=false;
+					else 
+						n.clicked = true;
+				}
 			}
 		}
-	}
-		
-	if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-	    System.out.println("SPACE KEY IS DOWN");
-	}
-		
-	while (Keyboard.next()) {
-	    if (Keyboard.getEventKeyState()) {
+			
+		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+		    System.out.println("SPACE KEY IS DOWN");
+		}
+			
+		while (Keyboard.next()) {
+		    if (Keyboard.getEventKeyState()) {
 	        if (Keyboard.getEventKey() == Keyboard.KEY_A) {
 	        	Camera.translate(0.01f,0,0);
-		}
-		if (Keyboard.getEventKey() == Keyboard.KEY_S) {
-		    Camera.translate(0,0.01f,0);
-		}
-		if (Keyboard.getEventKey() == Keyboard.KEY_D) {
-			Camera.translate(-0.01f,0,0);
-		}
-		if(Keyboard.getEventKey() == Keyboard.KEY_W){
-			Camera.translate(0,-0.01f,0);
-		}
-	    } else {
-	        if (Keyboard.getEventKey() == Keyboard.KEY_A) {
-		    //System.out.println("A Key Released");
-	        }
-	    	if (Keyboard.getEventKey() == Keyboard.KEY_S) {
-		    //System.out.println("S Key Released");
-		}
-		if (Keyboard.getEventKey() == Keyboard.KEY_D) {
-		    //System.out.println("D Key Released");
-		}
-	    }
-	}
+					}
+					if (Keyboard.getEventKey() == Keyboard.KEY_S) {
+					    Camera.translate(0,0.01f,0);
+					}
+					if (Keyboard.getEventKey() == Keyboard.KEY_D) {
+						Camera.translate(-0.01f,0,0);
+					}
+					if(Keyboard.getEventKey() == Keyboard.KEY_W){
+						Camera.translate(0,-0.01f,0);
+					}
+		    } else {
+		        if (Keyboard.getEventKey() == Keyboard.KEY_A) {
+			    //System.out.println("A Key Released");
+		        }
+		    		if (Keyboard.getEventKey() == Keyboard.KEY_S) {
+			    //System.out.println("S Key Released");
+						}
+						if (Keyboard.getEventKey() == Keyboard.KEY_D) {
+			    //System.out.println("D Key Released");
+						}
+		    }
+			}
     }
-
-	
-	/*public static void main(String[] argv) {
-		
-		DisplayExample displayExample = new DisplayExample();
-		displayExample.start();
-	}*/
-
-	public void updateMap(Vector<String> obj) {
-		for(String s : obj){
-			System.out.println(s);
-		}
-	}
 }

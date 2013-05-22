@@ -46,6 +46,7 @@
 		        debug="on">
 		 	<classpath refid="class.path"/>
 		 </javac>
+
 	</target>
 	
 	<target name="publish" depends="build" description="Publish project">
@@ -60,6 +61,7 @@
 			<fileset dir="${build.dir}">
 				<include name="**/*_Stub.class"></include>
 				<include name="servers/*Server.class"></include>
+				<include name="game/*.class"></include>
 			</fileset>
 		</move>
 		

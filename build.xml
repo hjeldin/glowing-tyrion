@@ -79,15 +79,31 @@
 <!--
 -classpath :/home/accounts/studenti/id092097/public_html/common/ -Djava.rmi.server.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -Dservers.impl.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -Djava.security.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy -Dservers.classeserver=servers.LoginServer -Dservers.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy -Djavax.net.ssl.trustStore=client.keystore -Djavax.net.ssl.keyStore=client.keystore -Djavax.net.ssl.keyStorePassword=client -Djava.rmi.activation.port=5551
 -->
+	<target name="launch-rmireg" description="Launches RMI">
+		<java classname="servers.RmiRegistry" fork="true">
+			<jvmarg value="-Djava.rmi.server.codebase=${publish.http}"/>
+			<jvmarg value="-Djavax.net.ssl.trustStore=server.keyStore"/>
+			<jvmarg value="-Djavax.net.ssl.keyStore=server.keyStore"/>
+			<jvmarg value="-Djavax.net.ssl.trustStorePassword=server"/>
+			<jvmarg value="-Djavax.net.ssl.keyStorePassword=server"/>
+			<jvmarg value="-Djava.security.policy=${user.home}/public_html/common/rmid.policy"/>
+			<classpath>
+				<pathelement path="${publish.dir}"/>
+				<pathelement path="${build.dir}"/>
+			</classpath>
+		</java>
+	</target>
+
 	<target name="launch-login-server" description="Launches login server">
 		<java classname="servers.SetupLogin" fork="true">
 			<jvmarg value="-Djava.rmi.server.codebase=${publish.http}"/>
 			<jvmarg value="-Dservers.impl.codebase=${publish.http}"/>
 			<jvmarg value="-Dservers.classeserver=servers.LoginServer"/>
 			<jvmarg value="-Dservers.policy=${user.home}/public_html/common/rmid.policy"/>
-			<jvmarg value="-Djavax.net.ssl.trustStore=client.keyStore"/>
-			<jvmarg value="-Djavax.net.ssl.keyStore=client.keyStore"/>
-			<jvmarg value="-Djavax.net.ssl.keyStorePassword=client"/>
+			<jvmarg value="-Djavax.net.ssl.trustStore=server.keyStore"/>
+			<jvmarg value="-Djavax.net.ssl.keyStore=server.keyStore"/>
+			<jvmarg value="-Djavax.net.ssl.keyStorePassword=server"/>
+			<jvmarg value="-Djavax.net.ssl.truestStorePassword=server"/>
 			<jvmarg value="-Djava.rmi.activation.port=5551"/>
 			<jvmarg value="-Djava.security.policy=${user.home}/public_html/common/rmid.policy"/>
 			<classpath>
@@ -103,10 +119,26 @@
 			<jvmarg value="-Dservers.impl.codebase=${publish.http}"/>
 			<jvmarg value="-Dservers.classeserver=servers.GameServer"/>
 			<jvmarg value="-Dservers.policy=${user.home}/public_html/common/rmid.policy"/>
-			<jvmarg value="-Djavax.net.ssl.trustStore=client.keyStore"/>
-			<jvmarg value="-Djavax.net.ssl.keyStore=client.keyStore"/>
-			<jvmarg value="-Djavax.net.ssl.keyStorePassword=client"/>
+			<jvmarg value="-Djavax.net.ssl.trustStore=server.keystore"/>
+			<jvmarg value="-Djavax.net.ssl.keyStore=server.keystore"/>
+			<jvmarg value="-Djavax.net.ssl.keyStorePassword=server"/>
 			<jvmarg value="-Djava.rmi.activation.port=5551"/>
+			<jvmarg value="-Djavax.net.ssl.trustStorePassword=server"/>
+			<jvmarg value="-Djava.security.policy=${user.home}/public_html/common/rmid.policy"/>
+			<classpath>
+				<pathelement path="${publish.dir}"/>
+				<pathelement path="${build.dir}"/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="launch-proxy" description="Launches Proxy">
+		<java classname="proxies.ProxyServer" fork="true">
+			<jvmarg value="-Djava.rmi.server.codebase=${publish.http}"/>
+			<jvmarg value="-Djavax.net.ssl.trustStore=client.keystore"/>
+			<jvmarg value="-Djavax.net.ssl.keyStore=client.keystore"/>
+			<jvmarg value="-Djavax.net.ssl.trustStorePassword=client"/>
+			<jvmarg value="-Djavax.net.ssl.keyStorePassword=client"/>
 			<jvmarg value="-Djava.security.policy=${user.home}/public_html/common/rmid.policy"/>
 			<classpath>
 				<pathelement path="${publish.dir}"/>
@@ -129,7 +161,10 @@
 		</java>
 	</target>
 	<target name="aaa_visualizeInterent" depends="build" description="lol catz">
-		<java classname="game.VisualizeNet" fork="true">
+		<java classname="game.ClientData" fork="true">
+			<jvmarg value="-Djava.security.policy=${user.home}/public_html/common/rmid.policy"/>
+			<jvmarg value="-Djava.rmi.codebase=${publish.http}" />
+			<jvmarg value="-Djava.rmi.server.codebase=${publish.http}" />
 			<sysproperty key="java.library.path" 
              value="${lib.dir}/native"/> 
 			<classpath>

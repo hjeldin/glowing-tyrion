@@ -31,7 +31,9 @@ public class Admin {
 		ILogin LoginStub = (ILogin)PortableRemoteObject.narrow(objRef, ILogin.class);
 		LoginFrame lf = new LoginFrame(LoginStub);
 		lf.init();
-		while( !lf.LoginDone );
+		while( !lf.LoginDone ){
+			
+		}
 		System.out.println("Login Done");
 		IGame GameStub = (IGame)PortableRemoteObject.narrow(objRef, IGame.class);
 		DisplayExample l = new DisplayExample(GameStub);

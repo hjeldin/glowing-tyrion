@@ -17,7 +17,7 @@ commands:
 rmid -log ~/workspace/glowing-tyrion/log/ -J-Djava.rmi.server.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -J-Djava.security.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy -port 5551
 
 
-rmid -log ~/workspace/glowing-tyrion/log/ -J-Djava.rmi.server.codebase=file:///home/jack/public_html/common/ -J-Djava.security.policy=/home/jack/workspace/glowing-tyrion/policy -port 5551
+rmid -log ~/workspace/glowing-tyrion/log/ -J-Djava.rmi.server.codebase=http://localhost:8000/common/ -J-Djava.security.policy=/home/jack/workspace/glowing-tyrion/policy -port 5551
 
 rmiregistry 2222 &
 

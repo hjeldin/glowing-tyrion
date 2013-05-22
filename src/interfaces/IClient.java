@@ -1,5 +1,5 @@
 package interfaces;
 
 public interface IClient {
-	void actionPerformed(Boolean logged);
+	void actionPerformed(Boolean logged) ;
 }

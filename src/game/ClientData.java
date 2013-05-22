@@ -32,12 +32,18 @@ public class ClientData implements IClient, Runnable, Serializable{
 	}
 
 	public void actionPerformed(Boolean logged ){
-		System.out.println("Login Done");
-		IGame GameStub = (IGame)login_stub;
-		DisplayExample l = new DisplayExample(GameStub);
-		System.out.println("Created DisplayExample");
-		l.start();
-		System.out.println("Window Closed");
+		if(logged ==true){
+			System.out.println("Login Done");
+			try{
+			IGame GameStub = (IGame)Naming.lookup("//"+ip+":2222/ProxyServer");
+			DisplayExample l = new DisplayExample(GameStub);
+			System.out.println("Created DisplayExample");
+			l.start();
+			System.out.println("Window Closed");
+			}	catch(Exception e){
+
+			}
+		}
 	}
 
 	@Override
@@ -48,14 +54,6 @@ public class ClientData implements IClient, Runnable, Serializable{
 			ILogin LoginStub = (ILogin)Naming.lookup("//"+cd.ip+":2222/ProxyServer");
 			LoginFrame lf = new LoginFrame(LoginStub);
 			lf.init(cd);
-			/*while( !lf.LoginDone ){System.out.println(lf.LoginDone);};
-			System.out.println("Login Done");
-			IGame GameStub = (IGame)Naming.lookup("//"+cd.ip+":2222/ProxyServer");
-			System.out.println("Lookup Done");
-			DisplayExample l = new DisplayExample(GameStub);
-			System.out.println("Created DisplayExample");
-			l.start();
-			System.out.println("Window Closed");*/
 		}catch(Exception e){
 			e.printStackTrace();
 		}

@@ -25,6 +25,15 @@ java -Djava.security.policy=/home/hjeldin/public_html/common/rmid.policy -Djavax
 
 java -Djava.security.policy=/home/hjeldin/public_html/common/rmid.policy -Djavax.net.ssl.trustStore=server.keystore -Djavax.net.ssl.keyStore=server.keystore -Djavax.net.ssl.trustStorePassword=server -Djavax.net.ssl.keyStorePassword=server -classpath :/home/hjeldin/public_html/common:bin proxies.ProxyServer
 
+
+
 rmiregistry 2222 &
 
 tnameserv -ORBInitialPort 5555 &
+
+
+launch bootstrap client:
+------------------------
+
+java -Djava.library.path=lib/native/ -Djava.rmi.codebase=http://localhost:8000/ -classpath :lib/lwjgl.jar:lib/lwl_util.jar:lib/slick.jar:bin:/home/hjeldin/public_html/common/ -Djava.security.policy=/home/hjeldin/public_html/common/rmid.policy -Dbootstrap.codebase=http://localhost:8000/ bootstrap.BootstrapClient
+

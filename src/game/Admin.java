@@ -4,7 +4,6 @@ import interfaces.IGame;
 import interfaces.ILogin;
 
 import java.net.InetAddress;
-import java.rmi.Naming;
 import java.util.Properties;
 
 import javax.naming.InitialContext;

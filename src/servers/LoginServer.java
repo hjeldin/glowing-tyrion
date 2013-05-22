@@ -34,7 +34,7 @@ public class LoginServer extends Activatable implements ILogin, Unreferenced{
 	}
 	
 	private void loadDB() throws IOException{
-		FileReader fstream = new FileReader(System.getProperty("user.dir")+"/workspace/glowing-tyrion/db.dat");
+		FileReader fstream = new FileReader(System.getProperty("user.dir")+"/db.dat");
 		BufferedReader in = new BufferedReader(fstream);
 		String tmpStr = "";
 		while((tmpStr = in.readLine()) != null){
@@ -90,7 +90,7 @@ public class LoginServer extends Activatable implements ILogin, Unreferenced{
 	private void loadPublicKey() throws IOException{
 		//String serverpublickey = System.getProperty("ssl.publicKey");
 		String serverpublickey = "server.public-key";
-		FileReader fstream = new FileReader(System.getProperty("user.dir")+"/workspace/glowing-tyrion/"+serverpublickey);
+		FileReader fstream = new FileReader(System.getProperty("user.dir")+"/"+serverpublickey);
 		BufferedReader in = new BufferedReader(fstream);
 		String tmpStr = "";
 		while((tmpStr = in.readLine()) != null){
@@ -116,7 +116,7 @@ public class LoginServer extends Activatable implements ILogin, Unreferenced{
 	}*/
 
 	private void addToDB(String username, String password) throws Exception{
-		FileWriter fstream = new FileWriter(System.getProperty("user.dir")+"/workspace/glowing-tyrion/db.dat",true);
+		FileWriter fstream = new FileWriter(System.getProperty("user.dir")+"/db.dat",true);
 		BufferedWriter out = new BufferedWriter(fstream);
 		out.write(username+"|:|"+SHA1(password));
 		out.close();

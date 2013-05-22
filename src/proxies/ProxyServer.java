@@ -1,7 +1,6 @@
 package proxies;
 
 import interfaces.IGame;
-import interfaces.IGame2;
 import interfaces.ILogin;
 import interfaces.IRemoteListener;
 
@@ -22,12 +21,11 @@ import javax.naming.InitialContext;
 import javax.rmi.PortableRemoteObject;
 import javax.rmi.ssl.SslRMIClientSocketFactory;
 
-public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, IGame2, Serializable{
+public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, Serializable{
 
 	private static final long serialVersionUID = 1L;
 	ILogin LoginServerStub;
 	IGame GameServerStub;
-	IGame2 GameServerStub2;
 	
 	public ProxyServer() throws RemoteException{
 		System.out.println("Created server proxy");
@@ -41,7 +39,6 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 			String ipp = ip.getHostAddress().toString();
 			LoginServerStub = (ILogin)registry.lookup("//"+ipp+":5551/LoginServer");
 			GameServerStub = (IGame)sslRegistry.lookup("//"+ipp+":5552/GameServer");
-			GameServerStub2 = (IGame2)sslRegistry.lookup("//"+ipp+":5552/GameServer");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -91,7 +88,12 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 	
 	@Override
 	public void addActiveNode(IRemoteListener l) throws RemoteException {
-		GameServerStub2.addActiveNode(l);
+		GameServerStub.addActiveNode(l);
+	}
+	
+	@Override
+	public void addActiveNode() throws RemoteException {
+		GameServerStub.addActiveNode();
 	}
 
 	@Override
@@ -106,8 +108,12 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 
 	@Override
 	public void removeActiveNode(IRemoteListener l) throws RemoteException {
-		GameServerStub2.removeActiveNode(l);
-		
+		GameServerStub.removeActiveNode(l);		
+	}
+	
+	@Override
+	public void removeActiveNode() throws RemoteException {
+		GameServerStub.removeActiveNode();		
 	}
 
 	@Override

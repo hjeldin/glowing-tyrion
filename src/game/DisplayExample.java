@@ -18,11 +18,40 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.util.ResourceLoader;
-
-
+import com.google.gson.Gson;
+import java.rmi.server.UnicastRemoteObject;
+import interfaces.*;
 public class DisplayExample implements Serializable{
 		
-	
+	private class RemoteThread extends Thread {
+		private ClientRemoteListener cdl;
+		private DisplayExample disp;
+		public RemoteThread(ClientRemoteListener cdl, DisplayExample disp){
+			this.cdl = cdl;
+			this.disp = disp;
+		}
+
+		public void run(){
+			while(cdl.gameMap == null){
+				System.out.println("Still here!");
+				try{
+				Thread.sleep(1000);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+
+			Gson jsonSerializer;
+			jsonSerializer = new Gson();
+			Internet alice;
+			alice = new Internet();
+			alice = jsonSerializer.fromJson(cdl.gameMap,Internet.class);
+			alice.GenerateISP();
+			disp.lulz = alice;
+		}
+	}
+
+
 	public IGame gsp = null;
 	
 	public int nClients = 10;
@@ -35,6 +64,7 @@ public class DisplayExample implements Serializable{
 	private HUD hud;
 	public static Vector<String> clients;
 	public int activeNodes = 0;
+
 	/** time at last frame */
 	long lastFrame;
  
@@ -43,6 +73,8 @@ public class DisplayExample implements Serializable{
 	/** last fps time */
 	long lastFPS;
 	private ClientRemoteListener cdl;
+	private IRemoteListener stub ;
+	public Internet lulz;
 	public DisplayExample(IGame gsp){
 		hud =  new HUD();
 		nodes = new Vector<Node>();
@@ -50,7 +82,7 @@ public class DisplayExample implements Serializable{
 		this.gsp = gsp;
 		try {
 			
-			try{
+			/*try{
 				clients = NetworkScanner.load();
 			}catch(Exception e){
 				clients = NetworkScanner.scan();
@@ -78,9 +110,10 @@ public class DisplayExample implements Serializable{
 				toAdd.nd = new NodeData();
 				nodes.add(toAdd);
 				k++;
-			}
+			}*/
 			cdl=new ClientRemoteListener("");
-			gsp.addActiveNode(cdl);
+			stub = (IRemoteListener) UnicastRemoteObject.exportObject(cdl, 0);
+			gsp.addActiveNode(stub);
 			extIP = NetworkScanner.getIp();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -163,16 +196,22 @@ public class DisplayExample implements Serializable{
 		lastFPS = getTime();
 		try{
 			gsp.updateMap(new Vector<String>());
+			RemoteThread t = new RemoteThread(cdl,this);
+			t.start();
+			//call remote thread
 		}catch(Exception e){
-
+			e.printStackTrace();
 		}
 		while (!Display.isCloseRequested()) {
 			int delta = getDelta();
 			update(delta);
 			cdl.update();
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
+			if(lulz != null){
+				lulz.draw();
+			}
 		    // set the color of the quad (R,G,B,A)
-		    for(Node n : nodes){
+		    /*for(Node n : nodes){
 		    	n.Draw();
 		    	n.DrawToCenter(centerX+5, centerY+5);
 		    }
@@ -186,7 +225,7 @@ public class DisplayExample implements Serializable{
 					GL11.glVertex2f(centerX,centerY+10);
 					GL11.glVertex2f(centerX+10,centerY+10);
 					GL11.glVertex2f(centerX+10,centerY);
-		    GL11.glEnd();
+		    GL11.glEnd();*/
 		    hud.render();
 		    try {
 		    	//System.out.println(gsp);
@@ -200,8 +239,8 @@ public class DisplayExample implements Serializable{
 		}
 		
 		try {
-			gsp.removeActiveNode();
-		} catch (RemoteException e) {
+			gsp.removeActiveNode(stub);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		Display.destroy();

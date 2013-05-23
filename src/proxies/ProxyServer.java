@@ -125,7 +125,7 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 		return LoginServerStub.register(username, password, publickey);
 	}
 	
-	public void notifyListeners(Vector<IRemoteListener> listeners, Vector<String> nodes) throws Exception{
+	public void notifyListeners(Vector<IRemoteListener> listeners, Object nodes) throws Exception{
 		for(IRemoteListener l : listeners){
 			l.remoteEvent(nodes);
 		}

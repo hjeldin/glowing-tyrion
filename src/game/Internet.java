@@ -8,7 +8,7 @@ public class Internet implements Serializable{
 	}
 
 	public void GenerateISP(){
-		for(ISP i : isps) i.GenerateNetwork(200,200);
+		for(ISP i : isps) i.GenerateNetwork(400,300);
 	}
 	public void draw(){
 		for(ISP i : isps) i.Draw();	

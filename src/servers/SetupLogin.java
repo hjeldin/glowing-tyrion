@@ -53,7 +53,7 @@ public class SetupLogin {
 			// SslRMIClientSocketFactory(), new SslRMIServerSocketFactory(null,
 			// null, true));
 			Registry registry = LocateRegistry.getRegistry("localhost", 5551);
-			registry.bind("//" + ipp + ":5551/LoginServer",
+			registry.rebind("//" + ipp + ":5551/LoginServer",
 					(Remote) stub_server);
 			// Thread.sleep(10000);
 		} catch (Throwable t) {

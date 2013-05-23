@@ -54,16 +54,16 @@ public class LoginServer extends Activatable implements ILogin, Unreferenced{
 	@Override
 	public boolean login(String username, String password) {
 		System.out.println(new java.util.Date() + " invoked login by " + " with username: " + username + " and prehashed pass");
-		if(db2.get(username))
-			System.out.println(username + " is Admin!");
 		try {
+			if(db2.get(username))
+				System.out.println(username + " is Admin!");
 			//return dm.checkUser(username,password);
+			System.out.println(db.get(username).equals(password));
 			return db.get(username).equals(password);
 				
 		} catch (Exception e) {
-			e.printStackTrace();
+			return false;
 		}
-		return false;
 	}
 
 	@Override

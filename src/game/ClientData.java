@@ -32,12 +32,14 @@ public class ClientData implements IClient, Runnable, Serializable{
 	}
 
 	public void actionPerformed(Boolean logged ) throws Exception{
-		System.out.println("Login Done");
-		IGame GameStub = (IGame)Naming.lookup("//"+ip+":2222/ProxyServer");;
-		DisplayExample l = new DisplayExample(GameStub);
-		System.out.println("Created DisplayExample");
-		l.start();
-		System.out.println("Window Closed");
+		if(logged){
+			System.out.println("Login Done");
+			IGame GameStub = (IGame)Naming.lookup("//"+ip+":2222/ProxyServer");;
+			DisplayExample l = new DisplayExample(GameStub);
+			System.out.println("Created DisplayExample");
+			l.start();
+			System.out.println("Window Closed");
+		}
 	}
 	
 	@Override

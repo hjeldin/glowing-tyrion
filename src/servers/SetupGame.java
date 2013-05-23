@@ -65,7 +65,7 @@ public class SetupGame {
 			String ipp = ip.getHostAddress().toString();
 			//Registry registry = LocateRegistry.createRegistry(5552, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory(null, null, true));
 			Registry registry = LocateRegistry.getRegistry("localhost", 5552, new SslRMIClientSocketFactory());
-			registry.bind("//" + ipp + ":5552/GameServer", (Remote) stub_server);
+			registry.rebind("//" + ipp + ":5552/GameServer", (Remote) stub_server);
 			// Thread.sleep(10000);
 		} catch (Throwable t) {
 			t.printStackTrace();

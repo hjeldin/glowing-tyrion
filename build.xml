@@ -130,6 +130,7 @@
 			<jvmarg value="-Djavax.net.ssl.trustStorePassword=server"/>
 			<jvmarg value="-Djava.security.policy=${user.home}/public_html/common/rmid.policy"/>
 			<classpath>
+				<pathelement path="${lib.dir}/gson-2.2.3.jar" />
 				<pathelement path="${publish.dir}"/>
 				<pathelement path="${build.dir}"/>
 			</classpath>
@@ -165,7 +166,7 @@
 		</java>
 	</target>
 	<target name="aaa_visualizeInterent" depends="build" description="lol catz">
-		<java classname="game.ClientData" fork="true">
+		<java classname="game.VisualizeNet" fork="true">
 			<jvmarg value="-Djava.security.policy=${user.home}/public_html/common/rmid.policy"/>
 			<jvmarg value="-Djava.rmi.codebase=${publish.http}" />
 			<jvmarg value="-Djava.rmi.server.codebase=${publish.http}" />

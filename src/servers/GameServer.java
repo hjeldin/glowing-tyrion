@@ -19,6 +19,16 @@ import java.util.Vector;
 
 import javax.rmi.ssl.SslRMIClientSocketFactory;
 import javax.rmi.ssl.SslRMIServerSocketFactory;
+import com.google.gson.Gson;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 
 public class GameServer extends Activatable implements IGame, Unreferenced{
 	private static final long serialVersionUID = 1L;
@@ -39,6 +49,23 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 			proxyStub = (IProxy)Naming.lookup("//"+ipp+":2222/ProxyServer");
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+
+		Gson jsonSerializer;
+		jsonSerializer = new Gson();
+		try{
+			FileReader fread = new FileReader("map.dat");
+			BufferedReader in = new BufferedReader(fread);
+			String jsonFile = "";
+			String tmpStr = "";
+			while((tmpStr = in.readLine()) != null){
+				jsonFile += tmpStr;
+			}
+			internet = new Internet();
+			internet = jsonSerializer.fromJson(jsonFile,Internet.class);
+			internet.GenerateISP();
+		} catch(Exception e){
+			System.out.println("errore"+e.toString());
 		}
 	}
 

@@ -54,6 +54,7 @@ public class VisualizeNet implements Serializable{
 		GL11.glLoadIdentity();
 		GL11.glOrtho(0, 800, 600, 0, -1, 20);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		GL11.glLoadIdentity();
 		GL11.glClearColor(0, 0, 0, 1);
 		while (!Display.isCloseRequested()) {
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	

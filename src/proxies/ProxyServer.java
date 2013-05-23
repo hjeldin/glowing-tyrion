@@ -2,6 +2,7 @@ package proxies;
 
 import interfaces.IGame;
 import interfaces.ILogin;
+import interfaces.IProxy;
 import interfaces.IRemoteListener;
 
 import java.io.Serializable;
@@ -21,7 +22,9 @@ import javax.naming.InitialContext;
 import javax.rmi.PortableRemoteObject;
 import javax.rmi.ssl.SslRMIClientSocketFactory;
 
-public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, Serializable{
+import servers.MobileServer;
+
+public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, IProxy, Serializable{
 
 	private static final long serialVersionUID = 1L;
 	ILogin LoginServerStub;
@@ -103,7 +106,7 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 	}
 
 	@Override
-	public boolean updateMap(Vector<String> clients) throws RemoteException {
+	public boolean updateMap(Vector<String> clients) throws Exception {
 		return GameServerStub.updateMap(clients);
 	}
 
@@ -120,6 +123,12 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 	@Override
 	public String register(String username, String password, String publickey) throws RemoteException {
 		return LoginServerStub.register(username, password, publickey);
+	}
+	
+	public void notifyListeners(Vector<IRemoteListener> listeners, Vector<String> nodes) throws Exception{
+		for(IRemoteListener l : listeners){
+			l.remoteEvent(nodes);
+		}
 	}
 	
 	public static void main(String args[]) throws Exception {
@@ -146,6 +155,11 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 	@Override
 	public boolean infect(String nodeIp, String playerIp) throws RemoteException {
 		return GameServerStub.infect(nodeIp, playerIp);
+	}
+
+	@Override
+	public void sendServer(MobileServer ms, IRemoteListener l) throws RemoteException {
+		l.recieveServer(ms);
 	}
 
 	/*@Override

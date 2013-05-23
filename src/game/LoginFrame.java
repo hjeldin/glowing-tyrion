@@ -15,7 +15,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.io.Serializable;
-import java.rmi.RemoteException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;

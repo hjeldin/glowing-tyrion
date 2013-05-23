@@ -79,7 +79,7 @@ public class DisplayExample implements Serializable{
 				nodes.add(toAdd);
 				k++;
 			}
-			cdl=new ClientRemoteListener();
+			cdl=new ClientRemoteListener("");
 			gsp.addActiveNode(cdl);
 			extIP = NetworkScanner.getIp();
 		} catch (Exception e) {

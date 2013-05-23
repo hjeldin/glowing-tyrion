@@ -8,8 +8,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class MobileServer extends UnicastRemoteObject implements IMobile, Serializable{
-
-	private static final long serialVersionUID = 1L;
 	
 	public  MobileServer() throws RemoteException {
 		super();

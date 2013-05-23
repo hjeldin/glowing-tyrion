@@ -3,9 +3,12 @@ package servers;
 import game.Internet;
 import game.NodeData;
 import interfaces.IGame;
+import interfaces.IProxy;
 import interfaces.IRemoteListener;
 
+import java.net.InetAddress;
 import java.rmi.MarshalledObject;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.activation.Activatable;
 import java.rmi.activation.ActivationException;
@@ -23,21 +26,29 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 	private Vector<String> nodes;
 	private Vector<IRemoteListener> listeners;
 	private Internet internet;
+	private IProxy proxyStub;
 	
 	protected GameServer(ActivationID id, MarshalledObject obj) throws ActivationException, RemoteException {
 		super(id, 3788, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory(null, null, true));
 		//super(id, 3788);
 		nodes = new Vector<String>();
 		listeners = new Vector<IRemoteListener>();
+		try{
+			InetAddress ip = InetAddress.getLocalHost();
+			String ipp = ip.getHostAddress().toString();
+			proxyStub = (IProxy)Naming.lookup("//"+ipp+":2222/ProxyServer");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
-	public boolean updateMap(Vector<String> clients) throws RemoteException {	
+	public boolean updateMap(Vector<String> clients) throws Exception {	
 		nodes.addAll(clients);
-		notifyListeners();
+		proxyStub.notifyListeners(listeners, nodes);
 		return true;
 	}
 
-	private void notifyListeners() {
+	/*private void notifyListeners() {
 		try {
 			for(IRemoteListener l : listeners){
 				l.remoteEvent(nodes);
@@ -46,7 +57,7 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	
 	public void addActiveNode() throws RemoteException {
@@ -89,15 +100,30 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 			}
 			return false;
 		}
-		//TODO:battle
+		System.out.println(nodeIp+" è un nodo attivo");
+		//TODO:Send server to playerIP
+		sendServer(playerIp);
+		//TODO:communicate with nodeIP
 		return false;
 	}
 	
-	/*public MobileServer sendServer(String ip) throws RemoteException{
+	private void sendServer(String ip) throws RemoteException{
 		MobileServer ms = new MobileServer();
-		return ms;
-	}*/
-
+		IRemoteListener l = findListener(ip);
+		if(l!=null)
+			proxyStub.sendServer(ms, l);
+		else
+			System.out.println("Listener con ip "+ip+" non trovato");
+	}
+	
+	private IRemoteListener findListener(String ip) throws RemoteException{
+		for(IRemoteListener l : listeners){
+			if(l.getIp().equals(ip))
+				return l;
+		}
+		return null;
+	}
+	
 	@Override
 	public void addActiveNode(IRemoteListener l) throws RemoteException {
 		System.out.println("Adding active node");

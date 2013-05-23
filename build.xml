@@ -62,6 +62,7 @@
 				<include name="**/*_Stub.class"></include>
 				<include name="servers/*Server.class"></include>
 				<include name="game/*.class"></include>
+				<exclude name="servers/MobileServer.class"></exclude>
 			</fileset>
 		</move>
 		
@@ -69,6 +70,7 @@
 			<fileset dir="${build.dir}">
 				<include name="interfaces/*.class"></include>
 				<include name="proxies/*Server.class"></include>
+				<include name="servers/MobileServer.class"></include>
 			</fileset>
 		</copy>
 	</target>

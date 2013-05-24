@@ -21,6 +21,9 @@ rmid -log ~/workspace/glowing-tyrion/log/ -J-Djava.rmi.server.codebase=http://lo
 
 rmid -log /home/hjeldin/projects/glowing-tyrion/log/ -J-Djava.rmi.server.codebase=http://localhost:8000/common/ -J-Djava.security.policy=/home/hjeldin/projects/glowing-tyrion/policy -port 5551
 
+
+rmid -log /home/hjeldin/projects/glowing-tyrion/log/ -J-Djava.rmi.server.codebase=http://157.27.243.172:8000/common/ -J-Djava.security.policy=/home/hjeldin/projects/glowing-tyrion/policy -port 5551
+
 java -Djava.security.policy=/home/hjeldin/public_html/common/rmid.policy -Djavax.net.ssl.trustStore=server.keystore -Djavax.net.ssl.keyStore=server.keystore -Djavax.net.ssl.trustStorePassword=server -Djavax.net.ssl.keyStorePassword=server -classpath :/home/hjeldin/public_html/common:bin servers.RmiRegistry
 
 java -Djava.security.policy=/home/hjeldin/public_html/common/rmid.policy -Djavax.net.ssl.trustStore=server.keystore -Djavax.net.ssl.keyStore=server.keystore -Djavax.net.ssl.trustStorePassword=server -Djavax.net.ssl.keyStorePassword=server -classpath :/home/hjeldin/public_html/common:bin proxies.ProxyServer

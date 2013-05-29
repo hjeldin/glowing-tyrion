@@ -6,6 +6,8 @@ import interfaces.IGame;
 import interfaces.IProxy;
 import interfaces.IRemoteListener;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.net.InetAddress;
 import java.rmi.MarshalledObject;
 import java.rmi.Naming;
@@ -19,16 +21,8 @@ import java.util.Vector;
 
 import javax.rmi.ssl.SslRMIClientSocketFactory;
 import javax.rmi.ssl.SslRMIServerSocketFactory;
+
 import com.google.gson.Gson;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 
 public class GameServer extends Activatable implements IGame, Unreferenced{
 	private static final long serialVersionUID = 1L;

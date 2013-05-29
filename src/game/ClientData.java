@@ -14,13 +14,18 @@ public class ClientData implements IClient, Runnable, Serializable{
 	String ip;
 	ILogin login_stub;
 	public ClientData() throws Exception{
-		InetAddress ip = InetAddress.getLocalHost();
-		String ipp = ip.getHostAddress().toString();
-		this.ip = ipp;
+		String remoteIp = "157.27.184.217";
+		if(remoteIp != null){
+			this.ip = remoteIp;
+		} else {
+			InetAddress ip = InetAddress.getLocalHost();
+			String ipp = ip.getHostAddress().toString();
+			this.ip = ipp;
+		}
 	}
 	
 	public static void main(String arg[]) throws Exception{
-		System.setSecurityManager(new SecurityManager());
+		/*System.setSecurityManager(new SecurityManager());
 		ClientData cd = new ClientData();
 		cd.login_stub = (ILogin)Naming.lookup("//"+cd.ip+":2222/ProxyServer");
 		LoginFrame lf = new LoginFrame(cd.login_stub);

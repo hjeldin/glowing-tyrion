@@ -23,11 +23,11 @@ public class Node implements Serializable{
 		else
 			GL11.glColor4f(0,0,1,1);
 		GL11.glBegin(GL11.GL_QUADS);
-	    GL11.glVertex2f(getX(),getY());
-			GL11.glVertex2f(getX(),getY()+height);
-			GL11.glVertex2f(getX()+width,getY()+height);
-			GL11.glVertex2f(getX()+width,getY());
-    GL11.glEnd();
+		    GL11.glVertex3f(getX(),getY(),5.0f);
+			GL11.glVertex3f(getX(),getY()+height,5.0f);
+			GL11.glVertex3f(getX()+width,getY()+height,5.0f);
+			GL11.glVertex3f(getX()+width,getY(),5.0f);
+	    GL11.glEnd();
 	}
 	
 	public void renderText(){
@@ -41,8 +41,8 @@ public class Node implements Serializable{
 	public void DrawToCenter(float x, float y){
 		GL11.glColor4f(r, g, b, 0.3f);
 		GL11.glBegin(GL11.GL_LINE_STRIP);
-			GL11.glVertex2f(this.getX()+5, this.getY()+5);
-			GL11.glVertex2f(x, y);
+			GL11.glVertex3f(this.getX()+5, this.getY()+5,5.0f);
+			GL11.glVertex3f(x, y,5.0f);
 		GL11.glEnd();
 	}
 

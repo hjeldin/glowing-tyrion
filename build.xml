@@ -5,7 +5,7 @@
 	<property name="lib.dir" value="lib"/>
 	<property name="res.dir" value="res"/>
 	<property name="publish.dir" value="${user.home}/public_html/common/"/>
-	<property name="publish.http" value="http://localhost:8000/common/"/>
+	<property name="publish.http" value="http://157.27.184.217:8000/common/"/>
 	<property name="log.dir" value="log"/>
 	<!-- Load task definitions e.g. FTP -->
 	<property name="build.dir" value="bin"/>
@@ -51,12 +51,19 @@
 	
 	<target name="publish" depends="build" description="Publish project">
 		<echo>Publishing project to common folder</echo>
+		
+		<rmic base="${build.dir}/" 
+			  includes="proxies/*Server.class" 
+			  stubversion="1.2" iiop="true">
+			<classpath refid="class.path"/>
+	 	</rmic>
+		
 		<rmic base="${build.dir}/" 
 			  includes="**/*Server.class" 
 			  stubversion="1.2">
 			<classpath refid="class.path"/>
 	 	</rmic>
-	 	
+	 		 	
 		<move todir="${publish.dir}" overwrite="yes">
 			<fileset dir="${build.dir}">
 				<include name="**/*_Stub.class"></include>

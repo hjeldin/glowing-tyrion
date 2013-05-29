@@ -7,12 +7,13 @@ import servers.MobileServer;
 
 public class ClientRemoteListener implements Serializable, IRemoteListener{
 	private String ip;
-	
+	public String gameMap;
 	public ClientRemoteListener(String ip){
 		this.ip = ip;
 	}
 	
 	public void remoteEvent(Object obj){
+		gameMap = (String)obj;
 		System.out.println("RemoteEvent to "+this.toString()+", " + obj.toString());
 	}
 

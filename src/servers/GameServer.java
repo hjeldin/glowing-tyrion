@@ -31,7 +31,8 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 	private Vector<IRemoteListener> listeners;
 	private Internet internet;
 	private IProxy proxyStub;
-	
+	private String jsonFile = "";
+
 	protected GameServer(ActivationID id, MarshalledObject obj) throws ActivationException, RemoteException {
 		super(id, 3788, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory(null, null, true));
 		//super(id, 3788);
@@ -45,27 +46,23 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 			e.printStackTrace();
 		}
 
-		Gson jsonSerializer;
-		jsonSerializer = new Gson();
 		try{
 			FileReader fread = new FileReader("map.dat");
 			BufferedReader in = new BufferedReader(fread);
-			String jsonFile = "";
 			String tmpStr = "";
 			while((tmpStr = in.readLine()) != null){
 				jsonFile += tmpStr;
 			}
-			internet = new Internet();
-			internet = jsonSerializer.fromJson(jsonFile,Internet.class);
-			internet.GenerateISP();
 		} catch(Exception e){
-			System.out.println("errore"+e.toString());
+			System.out.println("Error while loading "+e.toString());
 		}
 	}
 
 	public boolean updateMap(Vector<String> clients) throws Exception {	
-		nodes.addAll(clients);
-		proxyStub.notifyListeners(listeners, nodes);
+		/*for(IRemoteListener l : listeners){
+			System.out.println(l.toString());
+		}*/
+		proxyStub.notifyListeners(listeners, jsonFile);
 		return true;
 	}
 
@@ -129,12 +126,12 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 	}
 	
 	private void sendServer(String ip) throws RemoteException{
-		MobileServer ms = new MobileServer();
+/*		MobileServer ms = new MobileServer();
 		IRemoteListener l = findListener(ip);
 		if(l!=null)
 			proxyStub.sendServer(ms, l);
 		else
-			System.out.println("Listener con ip "+ip+" non trovato");
+			System.out.println("Listener con ip "+ip+" non trovato");*/
 	}
 	
 	private IRemoteListener findListener(String ip) throws RemoteException{

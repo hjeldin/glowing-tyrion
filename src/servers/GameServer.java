@@ -65,7 +65,9 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 	}
 
 	public boolean updateMap(Vector<String> clients) throws Exception {	
-		//nodes.addAll(clients);
+		/*for(IRemoteListener l : listeners){
+			System.out.println(l.toString());
+		}*/
 		proxyStub.notifyListeners(listeners, jsonFile);
 		return true;
 	}
@@ -130,12 +132,12 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 	}
 	
 	private void sendServer(String ip) throws RemoteException{
-		MobileServer ms = new MobileServer();
+/*		MobileServer ms = new MobileServer();
 		IRemoteListener l = findListener(ip);
 		if(l!=null)
 			proxyStub.sendServer(ms, l);
 		else
-			System.out.println("Listener con ip "+ip+" non trovato");
+			System.out.println("Listener con ip "+ip+" non trovato");*/
 	}
 	
 	private IRemoteListener findListener(String ip) throws RemoteException{

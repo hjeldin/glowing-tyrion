@@ -7,6 +7,9 @@ public class BootstrapClient {
 	static final String clientClass = "game.ClientData";
 	
 	public static void main(String args []) throws Exception{
+		for(String k : args){
+			System.out.println(k);
+		}
 		codebase = System.getProperty("bootstrap.codebase");
 		System.setSecurityManager(new SecurityManager());
 		Class classClient = RMIClassLoader.loadClass(codebase, clientClass);

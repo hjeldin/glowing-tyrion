@@ -127,6 +127,7 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 	
 	public void notifyListeners(Vector<IRemoteListener> listeners, Object nodes) throws Exception{
 		for(IRemoteListener l : listeners){
+			System.out.println(l.toString());
 			l.remoteEvent(nodes);
 		}
 	}
@@ -157,7 +158,7 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 		return GameServerStub.infect(nodeIp, playerIp);
 	}
 
-	@Override
+	/*@Override
 	public void sendServer(MobileServer ms, IRemoteListener l) throws RemoteException {
 		l.recieveServer(ms);
 	}

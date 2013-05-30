@@ -47,11 +47,12 @@ public class SetupLogin {
 			// FASE 5: BINDING DEL SERVER ATTIVABILE SUL REGISTRO RMI
 			System.out
 					.println("Faccio il binding dello stub del server attivabile nel registro RMI alla porta 1098 dove gia' si trova registrato il sistema di attivazione ");
-			InetAddress ip = InetAddress.getLocalHost();
-			String ipp = ip.getHostAddress().toString();
+			//InetAddress ip = InetAddress.getLocalHost();
+			//String ipp = ip.getHostAddress().toString();
 			// Registry registry = LocateRegistry.createRegistry(5552, new
 			// SslRMIClientSocketFactory(), new SslRMIServerSocketFactory(null,
 			// null, true));
+			String ipp = "157.27.184.217";
 			Registry registry = LocateRegistry.getRegistry("localhost", 5551);
 			registry.rebind("//" + ipp + ":5551/LoginServer",
 					(Remote) stub_server);

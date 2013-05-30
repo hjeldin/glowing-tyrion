@@ -14,7 +14,7 @@ public class ClientRemoteListener implements Serializable, IRemoteListener{
 	
 	public void remoteEvent(Object obj){
 		gameMap = (String)obj;
-		System.out.println("RemoteEvent to "+this.toString()+", " + obj.toString());
+		System.out.println("RemoteEvent to "+this.toString());
 	}
 
 	public void update(){

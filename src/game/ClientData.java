@@ -18,9 +18,9 @@ public class ClientData implements IClient, Runnable, Serializable{
 		if(remoteIp != null){
 			this.ip = remoteIp;
 		} else {
-			InetAddress ip = InetAddress.getLocalHost();
+			/*InetAddress ip = InetAddress.getLocalHost();
 			String ipp = ip.getHostAddress().toString();
-			this.ip = ipp;
+			this.ip = ipp;*/
 		}
 	}
 	
@@ -53,6 +53,7 @@ public class ClientData implements IClient, Runnable, Serializable{
 			System.setSecurityManager(new SecurityManager());
 			ClientData cd = new ClientData();
 			ILogin LoginStub = (ILogin)Naming.lookup("//"+cd.ip+":2222/ProxyServer");
+			System.out.println(LoginStub);
 			LoginFrame lf = new LoginFrame(LoginStub);
 			lf.init(cd);
 		}catch(Exception e){

@@ -9,8 +9,6 @@ import org.newdawn.slick.UnicodeFont;
 public class Node implements Serializable{
 	public NodeData nd;
 	public Rectangle rect = new Rectangle(0,0,10,10);
-	private int y;
-	private int x;
 	public int width,height;
 	public float r,g,b,a;
 	
@@ -47,21 +45,21 @@ public class Node implements Serializable{
 	}
 
 	public void setX(int x) {
-		this.x = x;
+		this.nd.x = x;
 		rect.x = x;
 	}
 
 	public int getX() {
-		return x;
+		return nd.x;
 	}
 
 	public void setY(int y) {
-		this.y = y;
+		this.nd.y = y;
 		rect.y = y;
 	}
 
 	public int getY() {
-		return y;
+		return nd.y;
 	}
 
 	public String toString(){

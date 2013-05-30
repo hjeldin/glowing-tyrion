@@ -48,10 +48,39 @@ public class DisplayExample implements Serializable{
 			alice = jsonSerializer.fromJson(cdl.gameMap,Internet.class);
 			alice.GenerateISP();
 			disp.lulz = alice;
+			for(ISP i : alice.isps){
+				for(Network k : i.networks){
+					for(NodeData m : k.nodes){
+						Node n = new Node();
+						n.nd = m;
+						n.width=10;
+						n.height=10;
+						disp.nodes.add(n);
+					}
+					Node net = new Node();
+					net.nd = k.gateway;
+					net.width = 10;
+					net.height = 10;
+					net.r = 1;
+					net.g = 0;
+					net.b = 0;
+					net.a = 1;
+					disp.nodes.add(net);
+				}
+				Node isp = new Node();
+				isp.nd = i.me;
+				isp.width = 10;
+				isp.height = 10;
+				isp.r = 0;
+				isp.g = 1;
+				isp.b = 0;
+				isp.a = 1;
+				disp.nodes.add(isp);
+			}
 		}
 	}
 
-
+	public Vector<Node> nodes = new Vector<Node>();
 	public IGame gsp = null;
 	public String extIP = "";
 	private HUD hud;
@@ -173,7 +202,12 @@ public class DisplayExample implements Serializable{
 			cdl.update();
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
 			if(lulz != null){
-				lulz.draw();
+//				lulz.draw();
+				for(Node n : nodes) 
+				{ 
+					n.Draw();
+					n.DrawToCenter(n.nd.centerX,n.nd.centerY);
+				}
 			}
 			
 			Camera.loadIdentity();

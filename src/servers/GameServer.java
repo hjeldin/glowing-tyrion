@@ -62,6 +62,15 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 		} catch(Exception e){
 			System.out.println("Error while loading "+e.toString());
 		}
+
+		Gson jsonSerializer;
+		jsonSerializer = new Gson();
+		Internet alice;
+		alice = new Internet();
+		alice = jsonSerializer.fromJson(jsonFile,Internet.class);
+		alice.GenerateISP();
+		internet = alice;
+		//disp.lulz = alice;
 	}
 
 	public boolean updateMap(Vector<String> clients) throws Exception {	
@@ -114,7 +123,7 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 	}
 	
 	public boolean infect(String nodeIp, String playerIp) throws RemoteException{
-		NodeData nd = internet.getNode(nodeIp);
+		/*NodeData nd = internet.getNode(nodeIp);
 		if(!nd.active){
 			if(!nd.infected){
 				nd.InfData.Infector =  playerIp;
@@ -128,7 +137,8 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 		//TODO:Send server to playerIP
 		sendServer(playerIp);
 		//TODO:communicate with nodeIP
-		return false;
+		return false;*/
+		return true;
 	}
 	
 	private void sendServer(String ip) throws RemoteException{

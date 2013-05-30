@@ -7,4 +7,5 @@ public class NodeData implements Serializable{
 	public boolean active;
 	public boolean infected;
 	public InfectionData InfData;
+	public int x,y;
 }

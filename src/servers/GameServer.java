@@ -52,6 +52,13 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 			String tmpStr = "";
 			while((tmpStr = in.readLine()) != null){
 				jsonFile += tmpStr;
+			
+			Gson jsonSerializer;
+			jsonSerializer = new Gson();
+			Internet alice;
+			alice = new Internet();
+			alice = jsonSerializer.fromJson(jsonFile,Internet.class);
+			this.internet = alice;
 			}
 		} catch(Exception e){
 			System.out.println("Error while loading "+e.toString());

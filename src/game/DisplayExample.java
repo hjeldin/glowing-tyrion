@@ -5,6 +5,8 @@ import interfaces.IGame;
 import java.awt.Font;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.Vector;
 
@@ -201,25 +203,35 @@ public class DisplayExample implements Serializable{
 	
 	public void update(int delta)
 	{
-		pollInput(delta);
-		updateFPS();
+		try {
+			pollInput(delta);
+			updateFPS();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void pollInput(int delta) {
+	public void pollInput(int delta) throws Exception {
 		int dWheel = Mouse.getDWheel();
 		Camera.zoom(dWheel);
 
     if (Mouse.isButtonDown(0)) {
 	    int x = Mouse.getX();
 	    int y = 600 - Mouse.getY();
-			/*for (Node n : nodes){
-				if(n.rect.contains(x, y)){
-					if(n.clicked)
-						n.clicked=false;
-					else 
-						n.clicked = true;
-				}
-			}*/
+	    for(ISP i : lulz.isps)
+			for(Network net : i.networks)
+				for(Node n : net.getVis_node())
+					if(n.rect.contains(x, y)){
+						if(n.clicked){
+							//n.clicked=false;
+							System.out.println("Selected node is already infected");
+						}else {
+							n.clicked = true;
+							InetAddress ip = InetAddress.getLocalHost();
+							String ipp = ip.getHostAddress().toString();
+							gsp.infect(n.nd.ip, ipp);
+						}
+					}
 		}
 			
 		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {

@@ -1,5 +1,6 @@
 package servers;
 
+import game.InfectionData;
 import game.Internet;
 import game.NodeData;
 import interfaces.IGame;
@@ -52,17 +53,19 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 			String tmpStr = "";
 			while((tmpStr = in.readLine()) != null){
 				jsonFile += tmpStr;
-			
-			Gson jsonSerializer;
-			jsonSerializer = new Gson();
-			Internet alice;
-			alice = new Internet();
-			alice = jsonSerializer.fromJson(jsonFile,Internet.class);
-			this.internet = alice;
 			}
 		} catch(Exception e){
 			System.out.println("Error while loading "+e.toString());
 		}
+
+		Gson jsonSerializer;
+		jsonSerializer = new Gson();
+		Internet alice;
+		alice = new Internet();
+		alice = jsonSerializer.fromJson(jsonFile,Internet.class);
+		alice.GenerateISP();
+		internet = alice;
+		//disp.lulz = alice;jsonSerializer.fromJson(jsonFile,Internet.class);
 	}
 
 	public boolean updateMap(Vector<String> clients) throws Exception {	
@@ -118,9 +121,17 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 		NodeData nd = internet.getNode(nodeIp);
 		if(!nd.active){
 			if(!nd.infected){
+				nd.InfData = new InfectionData();
 				nd.InfData.Infector =  playerIp;
 				nd.InfData.date = new Date();
 				nd.infected = true;
+				Gson jsonSerializer = new Gson();
+				jsonFile = jsonSerializer.toJson(internet); 
+				try {
+					updateMap(new Vector<String>());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				return true;
 			}
 			return false;

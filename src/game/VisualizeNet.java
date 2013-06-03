@@ -58,7 +58,7 @@ public class VisualizeNet implements Serializable{
 		GL11.glClearColor(0, 0, 0, 1);
 		while (!Display.isCloseRequested()) {
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
-			alice.draw();
+			//alice.draw();
 			Display.update();
 			Display.sync(60);
 		}

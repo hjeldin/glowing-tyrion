@@ -8,17 +8,25 @@ import servers.MobileServer;
 public class ClientRemoteListener implements Serializable, IRemoteListener{
 	private String ip;
 	public String gameMap;
+	public boolean update;
+	
 	public ClientRemoteListener(String ip){
 		this.ip = ip;
+		this.update = false;
 	}
 	
 	public void remoteEvent(Object obj){
 		gameMap = (String)obj;
-		System.out.println("RemoteEvent to "+this.toString()+", " + obj.toString());
+		System.out.println("RemoteEvent to "+this.toString());
+		update = true;
 	}
 
-	public void update(){
-		//System.out.println("called update");
+	public boolean update(){
+		if(update){
+			update = false;
+			return true;
+		}else
+			return false;
 	}
 	
 	public String getIp() throws RemoteException{

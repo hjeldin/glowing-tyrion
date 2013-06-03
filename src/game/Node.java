@@ -9,8 +9,6 @@ import org.newdawn.slick.UnicodeFont;
 public class Node implements Serializable{
 	public NodeData nd;
 	public Rectangle rect = new Rectangle(0,0,10,10);
-	private int y;
-	private int x;
 	public int width,height;
 	public float r,g,b,a;
 	
@@ -18,10 +16,10 @@ public class Node implements Serializable{
 	public static UnicodeFont fnt;
 	
 	public void Draw(){
-		if(nd.active)
+		//if(nd.active)
 			GL11.glColor4f(r,g,b,a);
-		else
-			GL11.glColor4f(0,0,1,1);
+		//else
+			//GL11.glColor4f(0,0,1,1);
 		GL11.glBegin(GL11.GL_QUADS);
 		    GL11.glVertex3f(getX(),getY(),5.0f);
 			GL11.glVertex3f(getX(),getY()+height,5.0f);
@@ -47,21 +45,21 @@ public class Node implements Serializable{
 	}
 
 	public void setX(int x) {
-		this.x = x;
+		this.nd.x = x;
 		rect.x = x;
 	}
 
 	public int getX() {
-		return x;
+		return nd.x;
 	}
 
 	public void setY(int y) {
-		this.y = y;
+		this.nd.y = y;
 		rect.y = y;
 	}
 
 	public int getY() {
-		return y;
+		return nd.y;
 	}
 
 	public String toString(){

@@ -63,6 +63,7 @@ public class SetupGame {
 					.println("Faccio il binding dello stub del server attivabile nel registro RMI alla porta 1098 dove gia' si trova registrato il sistema di attivazione ");
 			InetAddress ip = InetAddress.getLocalHost();
 			String ipp = ip.getHostAddress().toString();
+			//String ipp = "157.27.184.217";
 			//Registry registry = LocateRegistry.createRegistry(5552, new SslRMIClientSocketFactory(), new SslRMIServerSocketFactory(null, null, true));
 			Registry registry = LocateRegistry.getRegistry("localhost", 5552, new SslRMIClientSocketFactory());
 			registry.rebind("//" + ipp + ":5552/GameServer", (Remote) stub_server);

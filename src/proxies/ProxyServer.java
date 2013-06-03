@@ -40,6 +40,7 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 			Registry registry = LocateRegistry.getRegistry("localhost", 5551);
 			InetAddress ip = InetAddress.getLocalHost();
 			String ipp = ip.getHostAddress().toString();
+			//String ipp = "157.27.184.217";
 			LoginServerStub = (ILogin)registry.lookup("//"+ipp+":5551/LoginServer");
 			GameServerStub = (IGame)sslRegistry.lookup("//"+ipp+":5552/GameServer");
 		} catch (Exception e) {
@@ -125,10 +126,13 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 		return LoginServerStub.register(username, password, publickey);
 	}
 	
-	public void notifyListeners(Vector<IRemoteListener> listeners, Object nodes) throws Exception{
+	public void notifyListeners(Vector<IRemoteListener> listeners, Object nodes) throws RemoteException{
 		for(IRemoteListener l : listeners){
-			System.out.println(l.toString());
-			l.remoteEvent(nodes);
+			try{
+				System.out.println(l.toString());
+				l.remoteEvent(nodes);
+			}catch(java.rmi.NoSuchObjectException e){
+			}
 		}
 	}
 	
@@ -137,14 +141,14 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 		ProxyServer sp = new ProxyServer();
 		InetAddress ip = InetAddress.getLocalHost();
 		String ipp = ip.getHostAddress().toString();
-		
+		//String ipp = "157.27.184.217";
 		//RMI Binding
 		Properties p_jrmp = new Properties();
 		p_jrmp.put("java.naming.factory.initial", "com.sun.jndi.rmi.registry.RegistryContextFactory");
 		p_jrmp.put("java.naming.provider.url", "rmi://"+ipp+":2222");
 		InitialContext c_jrmp = new InitialContext(p_jrmp);
 		c_jrmp.rebind("ProxyServer", sp);
-		
+		System.out.println("FUCKING EXPORTING ON " + "rmi://"+ipp+":2222");
 		//COSNaming Binding
 		Properties p_iiop = new Properties();
 		p_iiop.put("java.naming.factory.initial", "com.sun.jndi.cosnaming.CNCtxFactory");

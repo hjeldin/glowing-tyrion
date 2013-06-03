@@ -5,7 +5,7 @@ public class ISP implements Serializable
 {
 	public String name="";
 	public Vector<Network> networks;
-	public Node me;
+	public NodeData me;
 	public ISP(){
 		networks = new Vector<Network>();
 	}
@@ -18,30 +18,25 @@ public class ISP implements Serializable
 			int cx,cy;
 			cx = centerX+(int)(Math.cos(theta*k)*radius);
 			cy = centerY+(int)(Math.sin(theta*k)*radius);
-			n.GenerateNodes(cx,cy);	
+			n.GenerateNodes(cx,cy);
+			n.setCenterX(centerX);
+			n.setCenterY(centerY-5);
 			k++;
 		}
-		me = new Node();
-		me.nd = new NodeData();
-		me.nd.active = true;
-		me.nd.ip = name;
-		me.setX(centerX);
-		me.setY(centerY-10);
-		me.width = 10;
-		me.height = 20;
-		me.r = 0.0f;
-		me.g = 1.0f;
-		me.b = 0.0f;
-		me.a = 1.0f;
+		me = new NodeData();
+		me.active = true;
+		me.ip = name;
+		me.x = centerX;
+		me.y = centerY-10;
 	}
 
-	public void Draw(){
+	/*public void Draw(){
 		for(Network n : networks) {
 			n.Draw();
 			me.DrawToCenter(n.centerX,n.centerY);
 		}
 		me.Draw();
-	}
+	}*/
 
 	public String toString(){
 		String tmpStr = "";

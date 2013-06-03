@@ -63,12 +63,23 @@
 			  stubversion="1.2">
 			<classpath refid="class.path"/>
 	 	</rmic>
-	 		 	
+	 	<rmic base="${build.dir}/" 
+			  includes="game/ClientRemoteListener.class" 
+			  stubversion="1.2" iiop="true">
+			<classpath refid="class.path"/>
+	 	</rmic>
+	 	<rmic base="${build.dir}/" 
+			  includes="game/ClientRemoteListener.class" 
+			  stubversion="1.2">
+			<classpath refid="class.path"/>
+	 	</rmic>
+
 		<move todir="${publish.dir}" overwrite="yes">
 			<fileset dir="${build.dir}">
 				<include name="**/*_Stub.class"></include>
 				<include name="servers/*Server.class"></include>
 				<include name="game/*.class"></include>
+				<include name="helpers/*.class"></include>
 				<exclude name="servers/MobileServer.class"></exclude>
 			</fileset>
 		</move>

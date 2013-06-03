@@ -33,7 +33,7 @@ public class DisplayExample implements Serializable{
 			this.disp = disp;
 		}
 
-		public void run(){
+		public synchronized void run(){
 			while(cdl.gameMap == null){
 				System.out.println("Still here!");
 				try{
@@ -42,18 +42,75 @@ public class DisplayExample implements Serializable{
 					e.printStackTrace();
 				}
 			}
-
-			Gson jsonSerializer;
-			jsonSerializer = new Gson();
-			Internet alice;
-			alice = new Internet();
-			alice = jsonSerializer.fromJson(cdl.gameMap,Internet.class);
-			alice.GenerateISP();
-			disp.lulz = alice;
+			
+			//while(true){
+				//System.out.println("Tread: " + cdl.update);
+				//if(cdl.update){
+					//System.out.println("entered while true!");
+					Gson jsonSerializer;
+					jsonSerializer = new Gson();
+					Internet alice;
+					alice = new Internet();
+					alice = jsonSerializer.fromJson(cdl.gameMap,Internet.class);
+					alice.GenerateISP();
+					disp.lulz = alice;
+					for(ISP i : alice.isps){
+						for(Network k : i.networks){
+							for(NodeData m : k.nodes){
+								Node n = new Node();
+								n.nd = m;
+								n.width=10;
+								n.height=10;
+								if(m.infected){
+									n.r = 1;
+									n.g = (float) 0.85;
+									n.b = 0;
+									n.a = 1;
+								}else{
+									n.r = 0;
+									n.g = 0;
+									n.b = 1;
+									n.a = 1;
+								}
+								n.setX(m.x);
+								n.setY(m.y);
+								disp.nodes.add(n);
+							}
+							Node net = new Node();
+							net.nd = k.gateway;
+							net.width = 10;
+							net.height = 10;
+							net.r = 1;
+							net.g = 0;
+							net.b = 0;
+							net.a = 1;
+							net.setX(k.gateway.x);
+							net.setY(k.gateway.y);
+							disp.nodes.add(net);
+						}
+						Node isp = new Node();
+						isp.nd = i.me;
+						isp.width = 10;
+						isp.height = 10;
+						isp.r = 0;
+						isp.g = 1;
+						isp.b = 0;
+						isp.a = 1;
+						isp.setX(i.me.x);
+						isp.setY(i.me.y);
+						disp.isps.add(isp);
+					}
+				//}
+			//}		
+					synchronized (disp) {
+						System.out.println("call notify()");
+					    disp.notify();
+					}
 		}
 	}
 
-
+	public Vector<Node> nodes = new Vector<Node>();
+	public Vector<Node> isps = new Vector<Node>();
 	public IGame gsp = null;
 	public String extIP = "";
 	private HUD hud;
@@ -61,6 +118,8 @@ public class DisplayExample implements Serializable{
 	private int[] translations;
 	/** time at last frame */
 	long lastFrame;
+	public RemoteThread t;
+	public int oldX = 0, oldY = 0;
  
 	/** frames per second */
 	int fps;
@@ -125,7 +184,7 @@ public class DisplayExample implements Serializable{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void start() {
+	public synchronized void start() {
 		try {
 			Display.setDisplayMode(new DisplayMode(800,600));
 			Display.create();
@@ -163,8 +222,13 @@ public class DisplayExample implements Serializable{
 		lastFPS = getTime();
 		try{
 			gsp.updateMap(new Vector<String>());
-			RemoteThread t = new RemoteThread(cdl,this);
+			t = new RemoteThread(cdl,this);
 			t.start();
+			synchronized (this) {
+				System.out.println("call first wait()");
+				this.wait();
+			}
+			
 			//call remote thread
 		}catch(Exception e){
 			e.printStackTrace();
@@ -172,10 +236,34 @@ public class DisplayExample implements Serializable{
 		while (!Display.isCloseRequested()) {
 			int delta = getDelta();
 			update(delta);
-			cdl.update();
+			if(cdl.update()){
+				try {
+					t.run();
+					synchronized (this) {
+						//System.out.println("call second wait()");
+						//this.wait();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
 			if(lulz != null){
-				lulz.draw();
+				//lulz.draw();
+				for(Node n : nodes) 
+				{ 
+					n.Draw();
+					n.DrawToCenter(n.nd.centerX,n.nd.centerY);
+				}
+				int precX = isps.get(isps.size()-1).getX();
+				int precY = isps.get(isps.size()-1).getY();
+				for(Node n : isps) 
+				{ 
+					n.DrawToCenter(precX,precY);
+					precX = n.getX();
+					precY = n.getY();
+					n.Draw();
+				}
 			}
 			
 			Camera.loadIdentity();
@@ -215,24 +303,29 @@ public class DisplayExample implements Serializable{
 		int dWheel = Mouse.getDWheel();
 		Camera.zoom(dWheel);
 
-    if (Mouse.isButtonDown(0)) {
-	    int x = Mouse.getX();
-	    int y = 600 - Mouse.getY();
-	    for(ISP i : lulz.isps)
-			for(Network net : i.networks)
-				for(Node n : net.getVis_node())
+	    if (Mouse.isButtonDown(0)) {
+		    int x = Mouse.getX();
+		    int y = 600 - Mouse.getY();
+		    //System.out.println("x: " +x+ " oldX: "+oldX+" y: " +y+ " oldY: "+oldY);
+		    if(x != oldX || y != oldY){
+				for(Node n : nodes)
 					if(n.rect.contains(x, y)){
 						if(n.clicked){
 							//n.clicked=false;
-							System.out.println("Selected node is already infected");
+							if(n.nd.InfData!=null)
+								System.out.println("Node "+n.nd.ip+" is already infected by " + n.nd.InfData.Infector + " on " + n.nd.InfData.date.toString());
 						}else {
 							n.clicked = true;
 							InetAddress ip = InetAddress.getLocalHost();
 							String ipp = ip.getHostAddress().toString();
 							gsp.infect(n.nd.ip, ipp);
+							System.out.println("Node "+n.nd.ip+" infected");
 						}
 					}
-		}
+				oldX = x;
+				oldY = y;
+			}
+	    }
 			
 		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
 		    System.out.println("SPACE KEY IS DOWN");

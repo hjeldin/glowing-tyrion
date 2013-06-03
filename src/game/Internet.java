@@ -24,7 +24,7 @@ public class Internet implements Serializable{
 			k++;
 		}
 	}
-	public void draw(){
+	/*public void draw(){
 		precX = isps.get(isps.size()-1).me.getX();
 		precY = isps.get(isps.size()-1).me.getY();
 		for(ISP i : isps) {
@@ -33,7 +33,7 @@ public class Internet implements Serializable{
 			precY = i.me.getY();
 			i.Draw();
 		}
-	}
+	}*/
 	public String toString(){
 		String tmpStr ="";
 		tmpStr += "Internet:";
@@ -44,9 +44,9 @@ public class Internet implements Serializable{
 		
 		for(ISP i : isps)
 			for(Network net : i.networks)
-				for(Node n : net.getVis_node())
-					if (n.nd.ip.equals(ip))
-						return n.nd;
+				for(NodeData n : net.nodes)
+					if (n.ip.equals(ip))
+						return n;
 		
 		return null;
 	}

@@ -196,7 +196,7 @@ public class DisplayExample implements Serializable{
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
-		GL11.glOrtho(0, 800, 600, 0, -1, 20);
+		GL11.glOrtho(0, 800, 600, 0, 0, 20);
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glClearColor(0.75f, 0.75f, 0.75f, 1);
 		UnicodeFont font2 = null;
@@ -266,7 +266,8 @@ public class DisplayExample implements Serializable{
 				}
 			}
 			
-			Camera.loadIdentity();
+			GL11.glPushMatrix();
+			GL11.glLoadIdentity();
 			
 		    hud.render();
 		    try {
@@ -309,7 +310,7 @@ public class DisplayExample implements Serializable{
 		    //System.out.println("x: " +x+ " oldX: "+oldX+" y: " +y+ " oldY: "+oldY);
 		    if(x != oldX || y != oldY){
 				for(Node n : nodes)
-					if(n.rect.contains(x, y)){
+					if(n.rect.contains(x-Camera.tx, y+Camera.ty)){
 						if(n.clicked){
 							//n.clicked=false;
 							if(n.nd.InfData!=null)
@@ -334,16 +335,16 @@ public class DisplayExample implements Serializable{
 		float trX = 0, trY = 0, trZ = 0;
 		
 		if(translations[0] == 1){
-			trY = -0.01f;
+			trY = -2f;
 		}
 		if(translations[1] == 1){
-			trY = 0.01f;
+			trY = 2f;
 		}
 		if(translations[2] == 1){
-			trX = -0.01f;
+			trX = -2f;
 		}
 		if(translations[3] == 1){
-			trX = 0.01f;
+			trX = 2f;
 		}
 		Camera.translate(trX,trY,trZ);
 		

@@ -40,6 +40,10 @@ public class Internet implements Serializable{
 		for(ISP i : isps) tmpStr += i.toString();
 		return tmpStr;
 	}
+
+	public NodeData removeNode(String ip){
+		return null;
+	}
 	public NodeData getNode(String ip){
 		
 		for(ISP i : isps)

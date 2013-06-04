@@ -175,6 +175,10 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 		}
 	}
 
+	@Override
+	public float[] getColor() throws RemoteException{
+		return GameServerAdminStub.getColor();
+	}
 	/*@Override
 	public void sendServer(MobileServer ms, IRemoteListener l) throws RemoteException {
 		l.recieveServer(ms);

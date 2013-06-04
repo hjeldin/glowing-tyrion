@@ -12,4 +12,5 @@ public interface IGame extends Remote{
 	public boolean infect(String nodeIp, String playerIp) throws RemoteException;
 	public void addActiveNode(IRemoteListener l) throws RemoteException;
 	public void removeActiveNode(IRemoteListener l) throws RemoteException;
+	public float[] getColor() throws RemoteException;
 }

@@ -14,4 +14,5 @@ public interface IGameAdmin extends Remote {
 	public void addActiveNode(IRemoteListener l) throws RemoteException;
 	public void removeActiveNode(IRemoteListener l) throws RemoteException;
 	public void resetMap() throws RemoteException;
+	public float[] getColor() throws RemoteException;
 }

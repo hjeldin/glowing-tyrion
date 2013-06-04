@@ -17,15 +17,15 @@ public class Node implements Serializable{
 	
 	public void Draw(){
 		//if(nd.active)
-			GL11.glColor4f(r,g,b,a);
+			GL11.glColor4f(nd.nodeColor[0],nd.nodeColor[1],nd.nodeColor[2],1.0f);
 		//else
 			//GL11.glColor4f(0,0,1,1);
 		GL11.glBegin(GL11.GL_QUADS);
-		    GL11.glVertex3f(getX(),getY(),0.0f);
-			GL11.glVertex3f(getX(),getY()+height,0.0f);
-			GL11.glVertex3f(getX()+width,getY()+height,0.0f);
-			GL11.glVertex3f(getX()+width,getY(),0.0f);
-	    GL11.glEnd();
+	    GL11.glVertex3f(getX(),getY(),0.0f);
+		GL11.glVertex3f(getX(),getY()+height,0.0f);
+		GL11.glVertex3f(getX()+width,getY()+height,0.0f);
+		GL11.glVertex3f(getX()+width,getY(),0.0f);
+    GL11.glEnd();
 	}
 	
 	public void renderText(){

@@ -47,6 +47,8 @@ public class DisplayExample implements Serializable{
 				//System.out.println("Tread: " + cdl.update);
 				//if(cdl.update){
 					//System.out.println("entered while true!");
+					disp.nodes = new Vector<Node>();
+					disp.isps = new Vector<Node>();
 					Gson jsonSerializer;
 					jsonSerializer = new Gson();
 					Internet alice;
@@ -61,17 +63,10 @@ public class DisplayExample implements Serializable{
 								n.nd = m;
 								n.width=10;
 								n.height=10;
-								if(m.infected){
-									n.r = 1;
-									n.g = (float) 0.85;
-									n.b = 0;
-									n.a = 1;
-								}else{
-									n.r = 0;
-									n.g = 0;
-									n.b = 1;
-									n.a = 1;
-								}
+								n.r = n.nd.nodeColor[0];
+								n.g = n.nd.nodeColor[1];
+								n.b = n.nd.nodeColor[2];
+								n.a = 1.0f;
 								n.setX(m.x);
 								n.setY(m.y);
 								disp.nodes.add(n);
@@ -116,6 +111,7 @@ public class DisplayExample implements Serializable{
 	private HUD hud;
 	public int activeNodes = 0;
 	private int[] translations;
+	protected float[] myColor = new float[3];
 	/** time at last frame */
 	long lastFrame;
 	public RemoteThread t;
@@ -129,12 +125,15 @@ public class DisplayExample implements Serializable{
 	private IRemoteListener stub ;
 	public Internet lulz;
 	public DisplayExample(IGameAdmin gsp){
+
 		hud =  new HUD();
 		this.gsp = gsp;
 		try {
-			cdl=new ClientRemoteListener("");
-			stub = (IRemoteListener) UnicastRemoteObject.exportObject(cdl,7777);
+			cdl=new ClientRemoteListener(String.valueOf(Math.random()*500));
+			stub = (IRemoteListener) UnicastRemoteObject.exportObject(cdl);
 			gsp.addActiveNode(stub);
+			myColor = gsp.getColor();
+			cdl.setColor(myColor);
 			extIP = NetworkScanner.getIp();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -317,9 +316,7 @@ public class DisplayExample implements Serializable{
 								System.out.println("Node "+n.nd.ip+" is already infected by " + n.nd.InfData.Infector + " on " + n.nd.InfData.date.toString());
 						}else {
 							n.clicked = true;
-							InetAddress ip = InetAddress.getLocalHost();
-							String ipp = ip.getHostAddress().toString();
-							gsp.infect(n.nd.ip, ipp);
+							gsp.infect(n.nd.ip, cdl.getIp());
 							System.out.println("Node "+n.nd.ip+" infected");
 						}
 					}

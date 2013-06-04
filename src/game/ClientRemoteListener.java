@@ -7,6 +7,7 @@ import servers.MobileServer;
 
 public class ClientRemoteListener implements Serializable, IRemoteListener{
 	private String ip;
+	public float[] color = new float[3];
 	public String gameMap;
 	public boolean update;
 	
@@ -27,6 +28,10 @@ public class ClientRemoteListener implements Serializable, IRemoteListener{
 			return true;
 		}else
 			return false;
+	}
+
+	public void setColor(float[] c){
+		this.color = c;
 	}
 	
 	public String getIp() throws RemoteException{

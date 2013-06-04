@@ -1,6 +1,7 @@
 package proxies;
 
 import interfaces.IGame;
+import interfaces.IGameAdmin;
 import interfaces.ILogin;
 import interfaces.IProxy;
 import interfaces.IRemoteListener;
@@ -24,11 +25,12 @@ import javax.rmi.ssl.SslRMIClientSocketFactory;
 
 import servers.MobileServer;
 
-public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, IProxy, Serializable{
+public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, IGameAdmin, IProxy, Serializable{
 
 	private static final long serialVersionUID = 1L;
 	ILogin LoginServerStub;
 	IGame GameServerStub;
+	IGameAdmin GameServerAdminStub;
 	
 	public ProxyServer() throws RemoteException{
 		System.out.println("Created server proxy");
@@ -43,6 +45,7 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 			//String ipp = "157.27.184.217";
 			LoginServerStub = (ILogin)registry.lookup("//"+ipp+":5551/LoginServer");
 			GameServerStub = (IGame)sslRegistry.lookup("//"+ipp+":5552/GameServer");
+			GameServerAdminStub = (IGameAdmin)sslRegistry.lookup("//"+ipp+":5552/GameServer");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
@@ -160,6 +163,16 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 	@Override
 	public boolean infect(String nodeIp, String playerIp) throws RemoteException {
 		return GameServerStub.infect(nodeIp, playerIp);
+	}
+
+	@Override
+	public void resetMap() throws RemoteException {
+		GameServerAdminStub.resetMap();
+		try {
+			GameServerAdminStub.updateMap(new Vector<String>());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/*@Override

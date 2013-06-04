@@ -1,6 +1,6 @@
 package game;
 import helpers.Text;
-import interfaces.IGame;
+import interfaces.IGameAdmin;
 
 import java.awt.Font;
 import java.io.InputStream;
@@ -111,7 +111,7 @@ public class DisplayExample implements Serializable{
 
 	public Vector<Node> nodes = new Vector<Node>();
 	public Vector<Node> isps = new Vector<Node>();
-	public IGame gsp = null;
+	public IGameAdmin gsp = null;
 	public String extIP = "";
 	private HUD hud;
 	public int activeNodes = 0;
@@ -128,7 +128,7 @@ public class DisplayExample implements Serializable{
 	private ClientRemoteListener cdl;
 	private IRemoteListener stub ;
 	public Internet lulz;
-	public DisplayExample(IGame gsp){
+	public DisplayExample(IGameAdmin gsp){
 		hud =  new HUD();
 		this.gsp = gsp;
 		try {
@@ -330,6 +330,7 @@ public class DisplayExample implements Serializable{
 			
 		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
 		    System.out.println("SPACE KEY IS DOWN");
+		    gsp.resetMap();
 		}
 		
 		float trX = 0, trY = 0, trZ = 0;

@@ -2,10 +2,10 @@ package game;
 
 import interfaces.IClient;
 import interfaces.IGame;
+import interfaces.IGameAdmin;
 import interfaces.ILogin;
 
 import java.io.Serializable;
-import java.net.InetAddress;
 import java.rmi.Naming;
 
 public class ClientData implements IClient, Runnable, Serializable{
@@ -39,7 +39,7 @@ public class ClientData implements IClient, Runnable, Serializable{
 	public void actionPerformed(Boolean logged ) throws Exception{
 		if(logged){
 			System.out.println("Login Done");
-			IGame GameStub = (IGame)Naming.lookup("//"+ip+":2222/ProxyServer");;
+			IGameAdmin GameStub = (IGameAdmin)Naming.lookup("//"+ip+":2222/ProxyServer");;
 			DisplayExample l = new DisplayExample(GameStub);
 			System.out.println("Created DisplayExample");
 			l.start();

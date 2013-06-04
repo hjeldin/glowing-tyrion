@@ -4,6 +4,7 @@ import game.InfectionData;
 import game.Internet;
 import game.NodeData;
 import interfaces.IGame;
+import interfaces.IGameAdmin;
 import interfaces.IProxy;
 import interfaces.IRemoteListener;
 
@@ -25,7 +26,7 @@ import javax.rmi.ssl.SslRMIServerSocketFactory;
 
 import com.google.gson.Gson;
 
-public class GameServer extends Activatable implements IGame, Unreferenced{
+public class GameServer extends Activatable implements IGame, Unreferenced, IGameAdmin{
 	private static final long serialVersionUID = 1L;
 	private int currentActiveNodes = 0;
 	private Vector<String> nodes;
@@ -47,24 +48,7 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 			e.printStackTrace();
 		}
 
-		try{
-			FileReader fread = new FileReader("map.dat");
-			BufferedReader in = new BufferedReader(fread);
-			String tmpStr = "";
-			while((tmpStr = in.readLine()) != null){
-				jsonFile += tmpStr;
-			}
-		} catch(Exception e){
-			System.out.println("Error while loading "+e.toString());
-		}
-
-		Gson jsonSerializer;
-		jsonSerializer = new Gson();
-		Internet alice;
-		alice = new Internet();
-		alice = jsonSerializer.fromJson(jsonFile,Internet.class);
-		alice.GenerateISP();
-		internet = alice;
+		resetMap();
 		//disp.lulz = alice;jsonSerializer.fromJson(jsonFile,Internet.class);
 	}
 
@@ -172,5 +156,29 @@ public class GameServer extends Activatable implements IGame, Unreferenced{
 		System.out.println("Removing active node");
 		listeners.remove(l);
 		currentActiveNodes--;	
+	}
+
+	@Override
+	public void resetMap() throws RemoteException {
+		jsonFile = "";
+		try{
+			FileReader fread = new FileReader("map.dat");
+			BufferedReader in = new BufferedReader(fread);
+			String tmpStr = "";
+			while((tmpStr = in.readLine()) != null){
+				jsonFile += tmpStr;
+			}
+		} catch(Exception e){
+			System.out.println("Error while loading "+e.toString());
+		}
+
+		Gson jsonSerializer;
+		jsonSerializer = new Gson();
+		Internet alice;
+		alice = new Internet();
+		alice = jsonSerializer.fromJson(jsonFile,Internet.class);
+		alice.GenerateISP();
+		internet = alice;
+		
 	}
 }

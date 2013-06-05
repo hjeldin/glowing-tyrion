@@ -1,15 +1,17 @@
-setupLogin
+rmiRegistry
+-classpath :/home/jack/public_html/common/ -Djavax.net.ssl.keyStore=server.keystore -Djavax.net.ssl.keyStorePassword=server -Djavax.net.ssl.trustStore=server.keystore  -Djava.security.policy=/home/jack/workspace/glowing-tyrion/policy  -Djava.rmi.server.codebase=http://localhost:8000/common/
 
--classpath :/home/accounts/studenti/id092097/public_html/common/ -Djava.rmi.server.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -Dservers.impl.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -Djava.security.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy -Dservers.classeserver=servers.LoginServer -Dservers.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy -Djavax.net.ssl.trustStore=client.keystore -Djavax.net.ssl.keyStore=client.keystore -Djavax.net.ssl.keyStorePassword=client -Djava.rmi.activation.port=5551
+setupLogin
+-classpath :/home/jack/public_html/common/ -Djava.rmi.server.codebase=http://localhost:8000/common/ -Dservers.impl.codebase=http://localhost:8000/common/ -Djava.security.policy=/home/jack/workspace/glowing-tyrion/policy -Dservers.classeserver=servers.LoginServer -Dservers.policy=/home/jack/workspace/glowing-tyrion/policy  -Djava.rmi.activation.port=5551
 
 setupGame
+-classpath :/home/jack/public_html/common/:/home/jack/public_html/common/gson-2.2.3.jar -Djava.rmi.server.codebase=http://localhost:8000/common/ -Dservers.impl.codebase=http://localhost:8000/common/ -Djava.security.policy=/home/jack/workspace/glowing-tyrion/policy -Dservers.classeserver=servers.GameServer -Dservers.policy=/home/jack/workspace/glowing-tyrion/policy -Djavax.net.ssl.trustStore=server.keystore -Djavax.net.ssl.trustStorePassword=server -Djavax.net.ssl.keyStore=server.keystore -Djavax.net.ssl.keyStorePassword=server -Djava.rmi.activation.port=5551
 
--classpath :/home/accounts/studenti/id092097/public_html/common/ -Djava.rmi.server.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -Dservers.impl.codebase=file:///home/accounts/studenti/id092097/public_html/common/ -Djava.security.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy -Dservers.classeserver=servers.GameServer -Dservers.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy -Djavax.net.ssl.trustStore=client.keystore -Djavax.net.ssl.keyStore=client.keystore -Djavax.net.ssl.keyStorePassword=client -Djava.rmi.activation.port=5551
+proxyServer
+-classpath :/home/jack/public_html/common/ -Djava.rmi.server.codebase=http://localhost:8000/common/ -Djava.security.policy=/home/jack/workspace/glowing-tyrion/policy -Djavax.net.ssl.trustStore=client.keystore -Djavax.net.ssl.keyStore=client.keystore -Djavax.net.ssl.keyStorePassword=client
 
-LoginFrame
-
--Djavax.net.ssl.trustStore=client.keystore -Djavax.net.ssl.keyStore=client.keystore -Djavax.net.ssl.keyStorePassword=client -Djava.security.policy=/home/accounts/studenti/id092097/workspace/glowing-tyrion/policy
-
+bootstrapClient
+-Djava.security.policy=/home/jack/workspace/glowing-tyrion/policy -Dbootstrap.codebase=http://localhost:8000/common/
 
 
 commands:
@@ -21,7 +23,6 @@ rmid -log ~/workspace/glowing-tyrion/log/ -J-Djava.rmi.server.codebase=http://lo
 
 rmid -log /home/hjeldin/projects/glowing-tyrion/log/ -J-Djava.rmi.server.codebase=http://localhost:8000/common/ -J-Djava.security.policy=/home/hjeldin/projects/glowing-tyrion/policy -port 5551
 
-
 rmid -log /home/hjeldin/projects/glowing-tyrion/log/ -J-Djava.rmi.server.codebase=http://157.27.184.217:8000/common/ -J-Djava.security.policy=/home/hjeldin/projects/glowing-tyrion/policy -port 5551
 
 rmid -log /home/accounts/studenti/id096092/public_html/log -J-Djava.rmi.server.codebase=http://157.27.241.66:8000/common/ -J-Djava.security.policy=/home/accounts/studenti/id096092/public_html/common/rmid.policy -port 5551
@@ -32,7 +33,7 @@ java -Djava.security.policy=/home/hjeldin/public_html/common/rmid.policy -Djavax
 
 java -Djava.security.policy=/home/hjeldin/public_html/common/rmid.policy -Djavax.net.ssl.trustStore=server.keystore -Djavax.net.ssl.keyStore=server.keystore -Djavax.net.ssl.trustStorePassword=server -Djavax.net.ssl.keyStorePassword=server -classpath :/home/hjeldin/public_html/common/:bin proxies.ProxyServer
 
-
+python -m SimpleHTTPServer
 
 rmiregistry 2222 &
 

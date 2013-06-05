@@ -28,12 +28,12 @@
 	<target name="clean" description="Clean up">
 		<echo>Cleaning up...</echo>
 		<delete dir="${build.dir}"/>
-		<exec executable="/usr/bin/pkill">
+		<!--exec executable="/usr/bin/pkill">
 			<arg value="python"></arg>
 		</exec>
 		<exec executable="/usr/bin/pkill">
 			<arg value="rmid"></arg>
-		</exec>
+		</exec-->
 	</target>
 	
 	<target name="build" depends="-init" description="Build project">

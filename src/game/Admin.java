@@ -65,7 +65,7 @@ public class Admin implements IClient{
 	public void actionPerformed(Boolean logged ) throws Exception{
 		System.out.println("Login Done");
 		IGameAdmin GameStub = (IGameAdmin)Naming.lookup("//"+ip+":2222/ProxyServer");;
-		DisplayExample l = new DisplayExample(GameStub);
+		DisplayExample l = new DisplayExample(null, GameStub);
 		System.out.println("Created DisplayExample");
 		l.start();
 		System.out.println("Window Closed");

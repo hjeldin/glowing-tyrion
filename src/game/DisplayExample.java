@@ -1,6 +1,6 @@
 package game;
 import helpers.Text;
-import interfaces.IGameAdmin;
+import interfaces.IGame;
 
 import java.awt.Font;
 import java.io.InputStream;
@@ -61,8 +61,13 @@ public class DisplayExample implements Serializable{
 							for(NodeData m : k.nodes){
 								Node n = new Node();
 								n.nd = m;
-								n.width=10;
-								n.height=10;
+								if(m.active){
+									n.width=15;
+									n.height=15;
+								}else{
+									n.width=10;
+									n.height=10;
+								}
 								n.r = n.nd.nodeColor[0];
 								n.g = n.nd.nodeColor[1];
 								n.b = n.nd.nodeColor[2];
@@ -98,7 +103,6 @@ public class DisplayExample implements Serializable{
 				//}
 			//}		
 					synchronized (disp) {
-						System.out.println("call notify()");
 					    disp.notify();
 					}
 		}
@@ -106,7 +110,8 @@ public class DisplayExample implements Serializable{
 
 	public Vector<Node> nodes = new Vector<Node>();
 	public Vector<Node> isps = new Vector<Node>();
-	public IGameAdmin gsp = null;
+	public IGame gsp = null;
+	public IGameAdmin gspa = null;
 	public String extIP = "";
 	private HUD hud;
 	public int activeNodes = 0;
@@ -124,16 +129,23 @@ public class DisplayExample implements Serializable{
 	private ClientRemoteListener cdl;
 	private IRemoteListener stub ;
 	public Internet lulz;
-	public DisplayExample(IGameAdmin gsp){
+	private boolean isADmin = false;
+	
+	public DisplayExample(IGame gsp, IGameAdmin gspa){
 
 		hud =  new HUD();
-		this.gsp = gsp;
+		if (gsp != null)
+			this.gsp = gsp;
+		else{
+			this.gspa = gspa;
+			this.isADmin = true;
+		}
 		try {
 			cdl=new ClientRemoteListener(String.valueOf(Math.random()*500));
 			stub = (IRemoteListener) UnicastRemoteObject.exportObject(cdl);
 			gsp.addActiveNode(stub);
-			myColor = gsp.getColor();
-			cdl.setColor(myColor);
+			//myColor = gsp.getColor();
+			//cdl.setColor(myColor);
 			extIP = NetworkScanner.getIp();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -224,7 +236,6 @@ public class DisplayExample implements Serializable{
 			t = new RemoteThread(cdl,this);
 			t.start();
 			synchronized (this) {
-				System.out.println("call first wait()");
 				this.wait();
 			}
 			
@@ -310,15 +321,15 @@ public class DisplayExample implements Serializable{
 		    if(x != oldX || y != oldY){
 				for(Node n : nodes)
 					if(n.rect.contains(x-Camera.tx, y+Camera.ty)){
-						if(n.clicked){
+						/*if(n.clicked){
 							//n.clicked=false;
 							if(n.nd.InfData!=null)
 								System.out.println("Node "+n.nd.ip+" is already infected by " + n.nd.InfData.Infector + " on " + n.nd.InfData.date.toString());
 						}else {
-							n.clicked = true;
-							gsp.infect(n.nd.ip, cdl.getIp());
-							System.out.println("Node "+n.nd.ip+" infected");
-						}
+							n.clicked = true;*/
+							String str = gsp.infect(n.nd.ip, cdl.getIp());
+							System.out.println(str);
+						//}
 					}
 				oldX = x;
 				oldY = y;
@@ -333,16 +344,16 @@ public class DisplayExample implements Serializable{
 		float trX = 0, trY = 0, trZ = 0;
 		
 		if(translations[0] == 1){
-			trY = -2f;
+			trY = -5f;
 		}
 		if(translations[1] == 1){
-			trY = 2f;
+			trY = 5f;
 		}
 		if(translations[2] == 1){
-			trX = -2f;
+			trX = -5f;
 		}
 		if(translations[3] == 1){
-			trX = 2f;
+			trX = 5f;
 		}
 		Camera.translate(trX,trY,trZ);
 		

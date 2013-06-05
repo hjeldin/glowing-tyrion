@@ -39,8 +39,8 @@ public class ClientData implements IClient, Runnable, Serializable{
 	public void actionPerformed(Boolean logged ) throws Exception{
 		if(logged){
 			System.out.println("Login Done");
-			IGameAdmin GameStub = (IGameAdmin)Naming.lookup("//"+ip+":2222/ProxyServer");;
-			DisplayExample l = new DisplayExample(GameStub);
+			IGame GameStub = (IGame)Naming.lookup("//"+ip+":2222/ProxyServer");;
+			DisplayExample l = new DisplayExample(GameStub, null);
 			System.out.println("Created DisplayExample");
 			l.start();
 			System.out.println("Window Closed");

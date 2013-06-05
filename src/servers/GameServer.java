@@ -95,11 +95,11 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 	}*/
 
 	
-	public void addActiveNode() throws RemoteException {
+	/*public void addActiveNode() throws RemoteException {
 		System.out.println("Adding active node");
 		//listeners.add(l);
 		currentActiveNodes++;
-	}
+	}*/
 
 	@Override
 	public int getActiveNodes() throws RemoteException {
@@ -107,11 +107,11 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 	}
 
 	
-	public void removeActiveNode() throws RemoteException {
+	/*public void removeActiveNode() throws RemoteException {
 		System.out.println("Removing active node");
 		//listeners.remove(l);
 		currentActiveNodes--;
-	}
+	}*/
 	
 	@Override
 	public void unreferenced() {
@@ -124,7 +124,8 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 		}
 	}
 	
-	public boolean infect(String nodeIp, String playerIp) throws RemoteException{
+	public String infect(String nodeIp, String playerIp) throws RemoteException{
+		String toRet = "";
 		NodeData nd = internet.getNode(nodeIp);
 		NodeData myPlayer = internet.getNode(playerIp);
 		System.out.println(playerIp + " asd " + myPlayer);
@@ -142,15 +143,17 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				return true;
+				toRet = "Node "+ nodeIp + " infected!";
+				return toRet;
 			}
-			return false;
+			toRet = "Node "+nodeIp+" is already infected by " + nd.InfData.Infector + " on " + nd.InfData.date.toString();
+			return toRet;
 		}
-		System.out.println(nodeIp+" è un nodo attivo");
+		toRet = nodeIp+" è un nodo attivo";
 		//TODO:Send server to playerIP
 		sendServer(playerIp);
 		//TODO:communicate with nodeIP
-		return false;
+		return toRet;
 	}
 	
 	private void sendServer(String ip) throws RemoteException{
@@ -230,6 +233,7 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 
 	@Override
 	public float[] getColor() throws RemoteException{
+		System.out.println(availableColors.size());
 		if(availableColors.size() > 0)
 			return availableColors.remove(availableColors.size()-1);
 		else {

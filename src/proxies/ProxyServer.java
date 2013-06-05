@@ -99,10 +99,10 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 		GameServerStub.addActiveNode(l);
 	}
 	
-	@Override
+	/*@Override
 	public void addActiveNode() throws RemoteException {
 		GameServerStub.addActiveNode();
-	}
+	}*/
 
 	@Override
 	public int getActiveNodes() throws RemoteException {
@@ -119,10 +119,10 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 		GameServerStub.removeActiveNode(l);		
 	}
 	
-	@Override
+	/*@Override
 	public void removeActiveNode() throws RemoteException {
 		GameServerStub.removeActiveNode();		
-	}
+	}*/
 
 	@Override
 	public String register(String username, String password, String publickey) throws RemoteException {
@@ -161,15 +161,15 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 	}
 
 	@Override
-	public boolean infect(String nodeIp, String playerIp) throws RemoteException {
+	public String infect(String nodeIp, String playerIp) throws RemoteException {
 		return GameServerStub.infect(nodeIp, playerIp);
 	}
 
 	@Override
 	public void resetMap() throws RemoteException {
-		GameServerAdminStub.resetMap();
+		GameServerStub.resetMap();
 		try {
-			GameServerAdminStub.updateMap(new Vector<String>());
+			GameServerStub.updateMap(new Vector<String>());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -177,7 +177,7 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 
 	@Override
 	public float[] getColor() throws RemoteException{
-		return GameServerAdminStub.getColor();
+		return GameServerStub.getColor();
 	}
 	/*@Override
 	public void sendServer(MobileServer ms, IRemoteListener l) throws RemoteException {

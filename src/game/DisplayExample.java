@@ -21,6 +21,8 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.util.ResourceLoader;
 import com.google.gson.Gson;
+
+import java.rmi.server.RMIClassLoader;
 import java.rmi.server.UnicastRemoteObject;
 import interfaces.*;
 public class DisplayExample implements Serializable{
@@ -42,62 +44,55 @@ public class DisplayExample implements Serializable{
 					e.printStackTrace();
 				}
 			}
-			
-			//while(true){
-				//System.out.println("Tread: " + cdl.update);
-				//if(cdl.update){
-					//System.out.println("entered while true!");
-					disp.nodes = new Vector<Node>();
-					disp.isps = new Vector<Node>();
-					Gson jsonSerializer;
-					jsonSerializer = new Gson();
-					Internet alice;
-					alice = new Internet();
-					alice = jsonSerializer.fromJson(cdl.gameMap,Internet.class);
-					alice.GenerateISP();
-					disp.lulz = alice;
-					for(ISP i : alice.isps){
-						for(Network k : i.networks){
-							for(NodeData m : k.nodes){
-								Node n = null;
-								if(m.active)
-									n = new Node(15,15);
-								else
-									n = new Node(10,10);
-								n.nd = m;
-								n.r = n.nd.nodeColor[0];
-								n.g = n.nd.nodeColor[1];
-								n.b = n.nd.nodeColor[2];
-								n.a = 1.0f;
-								n.setX(m.x);
-								n.setY(m.y);
-								disp.nodes.add(n);
-							}
-							Node net = new Node(10,10);
-							net.nd = k.gateway;
-							net.r = 1;
-							net.g = 0;
-							net.b = 0;
-							net.a = 1;
-							net.setX(k.gateway.x);
-							net.setY(k.gateway.y);
-							disp.nodes.add(net);
-						}
-						Node isp = new Node(10,10);
-						isp.nd = i.me;
-						isp.r = 0;
-						isp.g = 1;
-						isp.b = 0;
-						isp.a = 1;
-						isp.setX(i.me.x);
-						isp.setY(i.me.y);
-						disp.isps.add(isp);
+			disp.nodes = new Vector<Node>();
+			disp.isps = new Vector<Node>();
+			Gson jsonSerializer;
+			jsonSerializer = new Gson();
+			Internet alice;
+			alice = new Internet();
+			alice = jsonSerializer.fromJson(cdl.gameMap,Internet.class);
+			alice.GenerateISP();
+			disp.lulz = alice;
+			for(ISP i : alice.isps){
+				for(Network k : i.networks){
+					for(NodeData m : k.nodes){
+						Node n = null;
+						if(m.active)
+							n = new Node(15,15);
+						else
+							n = new Node(10,10);
+						n.nd = m;
+						n.r = n.nd.nodeColor[0];
+						n.g = n.nd.nodeColor[1];
+						n.b = n.nd.nodeColor[2];
+						n.a = 1.0f;
+						n.setX(m.x);
+						n.setY(m.y);
+						disp.nodes.add(n);
 					}
-				//}
-			//}		
-					synchronized (disp) {
-					    disp.notify();
-					}
+					Node net = new Node(10,10);
+					net.nd = k.gateway;
+					net.r = 1;
+					net.g = 0;
+					net.b = 0;
+					net.a = 1;
+					net.setX(k.gateway.x);
+					net.setY(k.gateway.y);
+					disp.nodes.add(net);
+				}
+				Node isp = new Node(10,10);
+				isp.nd = i.me;
+				isp.r = 0;
+				isp.g = 1;
+				isp.b = 0;
+				isp.a = 1;
+				isp.setX(i.me.x);
+				isp.setY(i.me.y);
+				disp.isps.add(isp);
+			}
+			synchronized (disp) {
+			    disp.notify();
+			}
 		}
 	}
 
@@ -134,12 +129,13 @@ public class DisplayExample implements Serializable{
 			this.isADmin = true;
 		}
 		try {
-			cdl=new ClientRemoteListener(String.valueOf(Math.random()*500));
+			extIP = NetworkScanner.getIp();
+			//Class classClient = RMIClassLoader.loadClass(System.getProperty("java.rmi."));
+			cdl=new ClientRemoteListener(extIP);
 			stub = (IRemoteListener) UnicastRemoteObject.exportObject(cdl);
 			gsp.addActiveNode(stub);
 			//myColor = gsp.getColor();
-			//cdl.setColor(myColor);
-			extIP = NetworkScanner.getIp();
+			//cdl.setColor(myColor);		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -242,10 +238,6 @@ public class DisplayExample implements Serializable{
 			if(cdl.update()){
 				try {
 					t.run();
-					synchronized (this) {
-						//System.out.println("call second wait()");
-						//this.wait();
-					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

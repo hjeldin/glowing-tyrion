@@ -5,7 +5,7 @@ import interfaces.IGameAdmin;
 import interfaces.ILogin;
 import interfaces.IProxy;
 import interfaces.IRemoteListener;
-
+import interfaces.IMobile;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
@@ -170,9 +170,15 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 		return GameServerStub.getColor();
 	}
 	
-	/*public void sendServer(MobileServer ms, IRemoteListener l) throws RemoteException {
-		l.recieveServer(ms);
-	}*/
+	public void sendServer(IMobile ms, IRemoteListener l, int port) throws RemoteException {
+		unexportObject(ms);
+		l.recieveServer(ms, port);
+	}
+
+	@Override
+	public void sendServerIP(IRemoteListener l, String serverIp, int port) throws RemoteException {
+		l.recieveServerIP(serverIp, port);
+	}
 
 	/*@Override
 	public MobileServer sendServer(String ip) throws RemoteException {

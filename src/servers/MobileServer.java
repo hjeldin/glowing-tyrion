@@ -14,10 +14,10 @@ public class MobileServer extends UnicastRemoteObject implements IMobile, Serial
 	}
 
 	@Override
-	public void battle(String ip) throws Exception {
-		InetAddress myIp = InetAddress.getLocalHost();
-		String myIpp = myIp.getHostAddress().toString();
-		System.out.println("Chiamato il metodo battle di "+myIpp+" da "+ip);
+	public void battle(String ip) throws RemoteException {
+		//InetAddress myIp = InetAddress.getLocalHost();
+		//String myIpp = myIp.getHostAddress().toString();
+		System.out.println("Chiamato il metodo battle da " +ip);
 	}
 	
 }

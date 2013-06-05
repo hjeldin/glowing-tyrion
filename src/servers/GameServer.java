@@ -31,6 +31,7 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 	private int currentActiveNodes = 0;
 	private Vector<String> nodes;
 	private Vector<IRemoteListener> listeners;
+	private int port = 6000;
 	private Internet internet;
 	private IProxy proxyStub;
 	private String jsonFile = "";
@@ -76,9 +77,6 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 	}
 
 	public boolean updateMap(Vector<String> clients) throws Exception {	
-		/*for(IRemoteListener l : listeners){
-			System.out.println(l.toString());
-		}*/
 		proxyStub.notifyListeners(listeners, jsonFile);
 		return true;
 	}
@@ -94,25 +92,11 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 		}
 	}*/
 
-	
-	/*public void addActiveNode() throws RemoteException {
-		System.out.println("Adding active node");
-		//listeners.add(l);
-		currentActiveNodes++;
-	}*/
-
 	@Override
 	public int getActiveNodes() throws RemoteException {
 		return currentActiveNodes;
 	}
 
-	
-	/*public void removeActiveNode() throws RemoteException {
-		System.out.println("Removing active node");
-		//listeners.remove(l);
-		currentActiveNodes--;
-	}*/
-	
 	@Override
 	public void unreferenced() {
 		try {
@@ -151,21 +135,30 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 				return toRet;
 			}
 			toRet = nodeIp+" è un nodo attivo";
-			//TODO:Send server to playerIP
 			sendServer(playerIp);
-			//TODO:communicate with nodeIP
+			sendServerIP(nodeIp, playerIp);
 		}
-		toRet = nodeIp+" non è infettabile";
+		else
+			toRet = nodeIp+" non è infettabile";
 		return toRet;
 	}
 	
 	private void sendServer(String ip) throws RemoteException{
-		/*MobileServer ms = new MobileServer();
+		MobileServer ms = new MobileServer();
+		unexportObject(ms, true);
 		IRemoteListener l = findListener(ip);
 		if(l!=null)
-			proxyStub.sendServer(ms, l);
+			proxyStub.sendServer(ms, l, port);
 		else
-			System.out.println("Listener con ip "+ip+" non trovato");*/
+			System.out.println("Listener con ip "+ip+" non trovato");
+	}
+	
+	private void sendServerIP(String ip, String serverIp) throws RemoteException{
+		IRemoteListener l = findListener(ip);
+		if(l!=null)
+			proxyStub.sendServerIP(l, serverIp, port);
+		else
+			System.out.println("Listener con ip "+ip+" non trovato");
 	}
 	
 	private IRemoteListener findListener(String ip) throws RemoteException{

@@ -8,13 +8,19 @@ import org.newdawn.slick.UnicodeFont;
 
 public class Node implements Serializable{
 	public NodeData nd;
-	public Rectangle rect = new Rectangle(0,0,10,10);
+	//public Rectangle rect = new Rectangle(0,0,10,10);
+	public Rectangle rect;
 	public int width,height;
 	public float r,g,b,a;
 	
 	public boolean clicked = false;
 	public static UnicodeFont fnt;
 	
+	public Node(int w, int h){
+		this.rect = new Rectangle(0, 0, w, h);
+		this.width = w;
+		this.height = h;
+	}
 	public void Draw(){
 		//if(nd.active)
 			GL11.glColor4f(nd.nodeColor[0],nd.nodeColor[1],nd.nodeColor[2],1.0f);

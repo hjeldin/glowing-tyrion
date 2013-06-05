@@ -128,36 +128,39 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 		String toRet = "";
 		NodeData nd = internet.getNode(nodeIp);
 		NodeData myPlayer = internet.getNode(playerIp);
-		System.out.println(playerIp + " asd " + myPlayer);
-		if(!nd.active){
-			if(!nd.infected){
-				nd.InfData = new InfectionData();
-				nd.InfData.Infector =  playerIp;
-				nd.InfData.date = new Date();
-				nd.nodeColor = myPlayer.nodeColor;
-				nd.infected = true;
-				Gson jsonSerializer = new Gson();
-				jsonFile = jsonSerializer.toJson(internet); 
-				try {
-					updateMap(new Vector<String>());
-				} catch (Exception e) {
-					e.printStackTrace();
+		//System.out.println(playerIp + " asd " + myPlayer);
+		if(nd != null){
+			if(!nd.active){
+				if(!nd.infected){
+					nd.InfData = new InfectionData();
+					nd.InfData.Infector =  playerIp;
+					nd.InfData.date = new Date();
+					nd.nodeColor = myPlayer.nodeColor;
+					nd.infected = true;
+					Gson jsonSerializer = new Gson();
+					jsonFile = jsonSerializer.toJson(internet); 
+					try {
+						updateMap(new Vector<String>());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					toRet = "Node "+ nodeIp + " infected!";
+					return toRet;
 				}
-				toRet = "Node "+ nodeIp + " infected!";
+				toRet = "Node "+nodeIp+" is already infected by " + nd.InfData.Infector + " on " + nd.InfData.date.toString();
 				return toRet;
 			}
-			toRet = "Node "+nodeIp+" is already infected by " + nd.InfData.Infector + " on " + nd.InfData.date.toString();
-			return toRet;
+			toRet = nodeIp+" è un nodo attivo";
+			//TODO:Send server to playerIP
+			sendServer(playerIp);
+			//TODO:communicate with nodeIP
 		}
-		toRet = nodeIp+" è un nodo attivo";
-		//TODO:Send server to playerIP
-		sendServer(playerIp);
-		//TODO:communicate with nodeIP
+		toRet = nodeIp+" non è infettabile";
 		return toRet;
 	}
 	
 	private void sendServer(String ip) throws RemoteException{
-/*		MobileServer ms = new MobileServer();
+		/*MobileServer ms = new MobileServer();
 		IRemoteListener l = findListener(ip);
 		if(l!=null)
 			proxyStub.sendServer(ms, l);

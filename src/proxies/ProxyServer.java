@@ -98,11 +98,6 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 	public void addActiveNode(IRemoteListener l) throws RemoteException {
 		GameServerStub.addActiveNode(l);
 	}
-	
-	/*@Override
-	public void addActiveNode() throws RemoteException {
-		GameServerStub.addActiveNode();
-	}*/
 
 	@Override
 	public int getActiveNodes() throws RemoteException {
@@ -118,11 +113,6 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 	public void removeActiveNode(IRemoteListener l) throws RemoteException {
 		GameServerStub.removeActiveNode(l);		
 	}
-	
-	/*@Override
-	public void removeActiveNode() throws RemoteException {
-		GameServerStub.removeActiveNode();		
-	}*/
 
 	@Override
 	public String register(String username, String password, String publickey) throws RemoteException {
@@ -179,10 +169,10 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 	public float[] getColor() throws RemoteException{
 		return GameServerStub.getColor();
 	}
-	/*@Override
-	public void sendServer(MobileServer ms, IRemoteListener l) throws RemoteException {
+	
+	/*public void sendServer(MobileServer ms, IRemoteListener l) throws RemoteException {
 		l.recieveServer(ms);
-	}
+	}*/
 
 	/*@Override
 	public MobileServer sendServer(String ip) throws RemoteException {

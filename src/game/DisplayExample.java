@@ -59,15 +59,12 @@ public class DisplayExample implements Serializable{
 					for(ISP i : alice.isps){
 						for(Network k : i.networks){
 							for(NodeData m : k.nodes){
-								Node n = new Node();
+								Node n = null;
+								if(m.active)
+									n = new Node(15,15);
+								else
+									n = new Node(10,10);
 								n.nd = m;
-								if(m.active){
-									n.width=15;
-									n.height=15;
-								}else{
-									n.width=10;
-									n.height=10;
-								}
 								n.r = n.nd.nodeColor[0];
 								n.g = n.nd.nodeColor[1];
 								n.b = n.nd.nodeColor[2];
@@ -76,10 +73,8 @@ public class DisplayExample implements Serializable{
 								n.setY(m.y);
 								disp.nodes.add(n);
 							}
-							Node net = new Node();
+							Node net = new Node(10,10);
 							net.nd = k.gateway;
-							net.width = 10;
-							net.height = 10;
 							net.r = 1;
 							net.g = 0;
 							net.b = 0;
@@ -88,10 +83,8 @@ public class DisplayExample implements Serializable{
 							net.setY(k.gateway.y);
 							disp.nodes.add(net);
 						}
-						Node isp = new Node();
+						Node isp = new Node(10,10);
 						isp.nd = i.me;
-						isp.width = 10;
-						isp.height = 10;
 						isp.r = 0;
 						isp.g = 1;
 						isp.b = 0;
@@ -320,16 +313,9 @@ public class DisplayExample implements Serializable{
 		    //System.out.println("x: " +x+ " oldX: "+oldX+" y: " +y+ " oldY: "+oldY);
 		    if(x != oldX || y != oldY){
 				for(Node n : nodes)
-					if(n.rect.contains(x-Camera.tx, y+Camera.ty)){
-						/*if(n.clicked){
-							//n.clicked=false;
-							if(n.nd.InfData!=null)
-								System.out.println("Node "+n.nd.ip+" is already infected by " + n.nd.InfData.Infector + " on " + n.nd.InfData.date.toString());
-						}else {
-							n.clicked = true;*/
-							String str = gsp.infect(n.nd.ip, cdl.getIp());
-							System.out.println(str);
-						//}
+					if(n.rect.contains(x-Camera.tx, y+Camera.ty) ){
+						String str = gsp.infect(n.nd.ip, cdl.getIp());
+						System.out.println(str);
 					}
 				oldX = x;
 				oldY = y;

@@ -14,7 +14,7 @@ public class ClientData implements IClient, Runnable, Serializable{
 	String ip;
 	ILogin login_stub;
 	public ClientData() throws Exception{
-		String remoteIp = "localhost";
+		String remoteIp = "157.27.241.56";
 		if(remoteIp != null){
 			this.ip = remoteIp;
 		} else {

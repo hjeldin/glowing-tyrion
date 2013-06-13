@@ -180,8 +180,7 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 		l.recieveServerIP(serverIp, port);
 	}
 
-	/*@Override
-	public MobileServer sendServer(String ip) throws RemoteException {
-		return GameServerStub.sendServer(ip);
-	}*/
+	public void notifyExported(String ip, String ipServer) throws RemoteException{
+		GameServerStub.notifyExported(ip, ipServer);
+	}
 }

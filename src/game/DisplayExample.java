@@ -308,6 +308,10 @@ public class DisplayExample implements Serializable{
 					if(n.rect.contains(x-Camera.tx, y+Camera.ty) ){
 						String str = gsp.infect(n.nd.ip, cdl.getIp());
 						System.out.println(str);
+						if(cdl.exported){
+							gsp.notifyExported(n.nd.ip, cdl.getIp());
+							cdl.exported = false;
+						}
 					}
 				oldX = x;
 				oldY = y;

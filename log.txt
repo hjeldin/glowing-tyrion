@@ -1,0 +1,198 @@
+Initial Naming Context:
+IOR:000000000000002b49444c3a6f6d672e6f72672f436f734e616d696e672f4e616d696e67436f6e746578744578743a312e300000000000010000000000000096000102000000000a3132372e302e302e310015b300000045afabcb0000000020000f424000000001000000000000000200000008526f6f74504f41000000000d544e616d65536572766963650000000000000008000000010000000114000000000000020000000100000020000000000001000100000002050100010001002000010109000000010001010000000026000000020002
+TransientNameServer: setting port for initial object references to: 5555
+Ready.
+/home/hjeldin/projects/glowing-tyrion
+RMI registry running on port 5552
+Il gruppo e' stato creato,  registrato col sistema d'attivazione, ed ha identificativo = java.rmi.activation.ActivationGroupID@19c8b35e
+localhost.localdomain - - [06/Jun/2013 15:59:45] "GET /common/servers/GameServer.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:45] "GET /common/servers/GameServer_Stub.class HTTP/1.1" 200 -
+E' stato creato l'activation descriptor del server che e' stato registrato col demone d'attivazione
+Il server attivabile che adesso puo' essere acceduto attraverso lo stub: GameServer_Stub[ActivatableRef [remoteRef: null]]
+Notate come la RemoteRef dello stub sia a null
+Faccio il binding dello stub del server attivabile nel registro RMI alla porta 1098 dove gia' si trova registrato il sistema di attivazione 
+localhost.localdomain - - [06/Jun/2013 15:59:46] "GET /common/servers/GameServer_Stub.class HTTP/1.1" 200 -
+Il gruppo e' stato creato,  registrato col sistema d'attivazione, ed ha identificativo = java.rmi.activation.ActivationGroupID@19c8b366
+localhost.localdomain - - [06/Jun/2013 15:59:46] "GET /common/servers/LoginServer.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:46] "GET /common/servers/LoginServer_Stub.class HTTP/1.1" 200 -
+E' stato creato l'activation descriptor del server che e' stato registrato col demone d'attivazione
+Il server attivabile che adesso puo' essere acceduto attraverso lo stub: LoginServer_Stub[ActivatableRef [remoteRef: null]]
+Notate come la RemoteRef dello stub sia a null
+Faccio il binding dello stub del server attivabile nel registro RMI alla porta 1098 dove gia' si trova registrato il sistema di attivazione 
+localhost.localdomain - - [06/Jun/2013 15:59:46] "GET /common/servers/LoginServer_Stub.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:46] "GET /common/interfaces/ILogin.class HTTP/1.1" 200 -
+Created server proxy
+localhost.localdomain - - [06/Jun/2013 15:59:47] "GET /common/servers/LoginServer_Stub.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:48] "GET /common/servers/GameServer_Stub.class HTTP/1.1" 200 -
+FUCKING EXPORTING ON rmi://127.0.0.1:2222
+localhost.localdomain - - [06/Jun/2013 15:59:48] "GET /common/proxies/_ProxyServer_Stub.class HTTP/1.1" 200 -
+sending pippo d012f68144ed0f121d3cc330a17eec528c2e7d59
+LoginServer_Stub[ActivatableRef [remoteRef: null]]
+localhost.localdomain - - [06/Jun/2013 15:59:50] "GET /common/servers/LoginServer.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:50] "GET /common/interfaces/ILogin.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:50] "GET /common/servers/LoginServer_Stub.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:50] code 404, message File not found
+localhost.localdomain - - [06/Jun/2013 15:59:50] "GET /common/servers/LoginServer_Skel.class HTTP/1.1" 404 -
+Thu Jun 06 15:59:50 CEST 2013:ExecGroup-0:out:Thu Jun 06 15:59:50 CEST 2013 invoked login by  with username: pippo and prehashed pass
+Thu Jun 06 15:59:50 CEST 2013:ExecGroup-0:out:true
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/game/ClientRemoteListener_Stub.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/servers/GameServer.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/interfaces/IGame.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/interfaces/IGameAdmin.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/interfaces/IMobile.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/servers/GameServer_Stub.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/interfaces/IRemoteListener.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] code 404, message File not found
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/servers/GameServer_Skel.class HTTP/1.1" 404 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/interfaces/ILogin.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/interfaces/IProxy.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/map.dat HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/Gson.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/JsonDeserializationContext.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/JsonSerializationContext.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/FieldNamingStrategy.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/stream/MalformedJsonException.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/JsonIOException.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/JsonParseException.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/JsonSyntaxException.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/JsonElement.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/JsonNull.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/stream/JsonWriter.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/JsonTreeWriter.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/TypeAdapter.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/Gson$FutureTypeAdapter.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/Gson$5.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/Gson$4.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/Gson$3.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/stream/JsonReader.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/JsonTreeReader.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/Excluder.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/TypeAdapterFactory.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/Excluder$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/FieldNamingPolicy.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/FieldNamingPolicy$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/FieldNamingPolicy$2.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/FieldNamingPolicy$3.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/FieldNamingPolicy$4.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/FieldNamingPolicy$5.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/LongSerializationPolicy.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/LongSerializationPolicy$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/LongSerializationPolicy$2.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/JsonPrimitive.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/Gson$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/Gson$2.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/ConstructorConstructor.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/ObjectConstructor.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$2.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$3.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$4.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$5.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$6.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$7.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$8.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$9.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$10.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$11.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$12.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$13.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$14.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$15.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$16.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$17.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$18.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$19.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$20.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$21.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$23.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$24.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$25.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/TypeAdapter$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$28.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$29.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/LazilyParsedNumber.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$31.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$22.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$22$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$30.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/JsonArray.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/JsonObject.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$26.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/TypeAdapters$EnumTypeAdapter.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/ObjectTypeAdapter.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/ObjectTypeAdapter$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/DateTypeAdapter.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:51] "GET /common/com/google/gson/internal/bind/DateTypeAdapter$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/TimeTypeAdapter.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/TimeTypeAdapter$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/SqlDateTypeAdapter.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/SqlDateTypeAdapter$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/ArrayTypeAdapter.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/TypeAdapterRuntimeTypeWrapper.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/ArrayTypeAdapter$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/CollectionTypeAdapterFactory.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/CollectionTypeAdapterFactory$Adapter.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/MapTypeAdapterFactory.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/MapTypeAdapterFactory$Adapter.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/ReflectiveTypeAdapterFactory.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/ReflectiveTypeAdapterFactory$Adapter.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/ReflectiveTypeAdapterFactory$BoundField.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/bind/ReflectiveTypeAdapterFactory$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/game/Internet.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/JsonReaderInternalAccess.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/stream/JsonReader$1.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/stream/JsonToken.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/reflect/TypeToken.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/$Gson$Preconditions.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/$Gson$Types.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/$Gson$Types$GenericArrayTypeImpl.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/ConstructorConstructor$3.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/game/ISP.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/annotations/SerializedName.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/$Gson$Types$ParameterizedTypeImpl.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/Primitives.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/game/NodeData.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/game/Network.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/game/InfectionData.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/game/ClientRemoteListener_Stub.class HTTP/1.1" 200 -
+Thu Jun 06 15:59:52 CEST 2013:ExecGroup-1:out:Adding active node
+Thu Jun 06 15:59:52 CEST 2013:ExecGroup-1:out:4
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/Streams.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 15:59:52] "GET /common/com/google/gson/internal/Streams$AppendableWriter.class HTTP/1.1" 200 -
+ClientRemoteListener_Stub[UnicastRef [liveRef: [endpoint:[127.0.0.1:50690](remote),objID:[22f26599:13f19c94520:-7ffe, -6012190629300966472]]]]
+ClientRemoteListener_Stub[UnicastRef [liveRef: [endpoint:[127.0.0.1:50690](remote),objID:[22f26599:13f19c94520:-7ffe, -6012190629300966472]]]]
+sending hjeldin 65ccc6e66a91acabc54099c082a91b427cb306ef
+LoginServer_Stub[ActivatableRef [remoteRef: sun.rmi.server.UnicastRef2@5d003b]]
+Thu Jun 06 15:59:58 CEST 2013:ExecGroup-0:out:Thu Jun 06 15:59:58 CEST 2013 invoked login by  with username: hjeldin and prehashed pass
+Thu Jun 06 15:59:58 CEST 2013:ExecGroup-0:out:hjeldin is Admin!
+Thu Jun 06 15:59:58 CEST 2013:ExecGroup-0:out:true
+Thu Jun 06 15:59:59 CEST 2013:ExecGroup-1:out:Adding active node
+Thu Jun 06 15:59:59 CEST 2013:ExecGroup-1:out:3
+ClientRemoteListener_Stub[UnicastRef [liveRef: [endpoint:[127.0.0.1:50690](remote),objID:[22f26599:13f19c94520:-7ffe, -6012190629300966472]]]]
+ClientRemoteListener_Stub[UnicastRef [liveRef: [endpoint:[127.0.0.1:40601](remote),objID:[1664164b:13f19c95d59:-7ffe, -4646016143114242695]]]]
+ClientRemoteListener_Stub[UnicastRef [liveRef: [endpoint:[127.0.0.1:50690](remote),objID:[22f26599:13f19c94520:-7ffe, -6012190629300966472]]]]
+ClientRemoteListener_Stub[UnicastRef [liveRef: [endpoint:[127.0.0.1:40601](remote),objID:[1664164b:13f19c95d59:-7ffe, -4646016143114242695]]]]
+localhost.localdomain - - [06/Jun/2013 16:00:04] "GET /common/servers/MobileServer.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 16:00:04] "GET /common/servers/MobileServer_Stub.class HTTP/1.1" 200 -
+localhost.localdomain - - [06/Jun/2013 16:00:04] code 404, message File not found
+localhost.localdomain - - [06/Jun/2013 16:00:04] "GET /common/servers/MobileServer_Skel.class HTTP/1.1" 404 -
+localhost.localdomain - - [06/Jun/2013 16:00:04] code 404, message File not found
+localhost.localdomain - - [06/Jun/2013 16:00:04] "GET /common/servers/_MobileServer_Tie.class HTTP/1.1" 404 -
+localhost.localdomain - - [06/Jun/2013 16:00:04] code 404, message File not found
+localhost.localdomain - - [06/Jun/2013 16:00:04] "GET /common/org/omg/stub/servers/_MobileServer_Tie.class HTTP/1.1" 404 -
+localhost.localdomain - - [06/Jun/2013 16:00:04] code 404, message File not found
+localhost.localdomain - - [06/Jun/2013 16:00:04] "GET /common/org/omg/stub/java/rmi/server/_UnicastRemoteObject_Tie.class HTTP/1.1" 404 -
+localhost.localdomain - - [06/Jun/2013 16:00:04] code 404, message File not found
+localhost.localdomain - - [06/Jun/2013 16:00:04] "GET /common/org/omg/stub/org/omg/stub/java/rmi/server/_UnicastRemoteObject_Tie.class HTTP/1.1" 404 -
+localhost.localdomain - - [06/Jun/2013 16:00:04] code 404, message File not found
+localhost.localdomain - - [06/Jun/2013 16:00:04] "GET /common/org/omg/stub/java/rmi/server/_RemoteServer_Tie.class HTTP/1.1" 404 -
+localhost.localdomain - - [06/Jun/2013 16:00:04] code 404, message File not found
+localhost.localdomain - - [06/Jun/2013 16:00:04] "GET /common/org/omg/stub/org/omg/stub/java/rmi/server/_RemoteServer_Tie.class HTTP/1.1" 404 -
+localhost.localdomain - - [06/Jun/2013 16:00:04] code 404, message File not found
+localhost.localdomain - - [06/Jun/2013 16:00:04] "GET /common/org/omg/stub/java/rmi/server/_RemoteObject_Tie.class HTTP/1.1" 404 -
+localhost.localdomain - - [06/Jun/2013 16:00:04] code 404, message File not found
+localhost.localdomain - - [06/Jun/2013 16:00:04] "GET /common/org/omg/stub/org/omg/stub/java/rmi/server/_RemoteObject_Tie.class HTTP/1.1" 404 -
+Thu Jun 06 16:00:08 CEST 2013:ExecGroup-1:out:Removing active node
+Thu Jun 06 16:00:12 CEST 2013:ExecGroup-1:out:Removing active node
+localhost.localdomain - - [06/Jun/2013 18:15:24] "GET / HTTP/1.1" 200 -

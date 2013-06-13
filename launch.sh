@@ -10,7 +10,7 @@ export CLASSPATH=$POLICY_DIR
 
 sudo pkill rmiregistry
 sudo pkill tnameserv
-#sudo pkill python
+sudo pkill python
 sudo pkill rmid
 sudo pkill java
 
@@ -22,7 +22,7 @@ tnameserv -ORBInitialPort 5555 &
 sleep 1
 
 cd $POLICY_DIR/../
-#python -m SimpleHTTPServer &
+python -m SimpleHTTPServer &
 
 cd ~
 rmid -log $LOG_DIR -J-Djava.rmi.server.codebase=$CODEBASE_DIR -J-Djava.security.policy=$POLICY_DIR/rmid.policy -port 5551 &

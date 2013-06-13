@@ -14,4 +14,5 @@ public interface IGame extends Remote{
 	public void removeActiveNode(IRemoteListener l) throws RemoteException;
 	public void resetMap() throws RemoteException;
 	public float[] getColor() throws RemoteException;
+	public void notifyExported(String ipDest, String ipServer) throws RemoteException;
 }

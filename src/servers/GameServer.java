@@ -136,7 +136,6 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 			}
 			toRet = nodeIp+" è un nodo attivo";
 			sendServer(playerIp);
-			sendServerIP(nodeIp, playerIp);
 		}
 		else
 			toRet = nodeIp+" non è infettabile";
@@ -239,5 +238,10 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 			asd[2] = 1.0f;
 			return asd;
 		}
+	}
+
+	@Override
+	public void notifyExported(String ip, String ipServer) throws RemoteException{
+		sendServerIP(ip, ipServer);
 	}
 }

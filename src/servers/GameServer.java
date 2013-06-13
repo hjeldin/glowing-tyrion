@@ -7,6 +7,7 @@ import interfaces.IGame;
 import interfaces.IGameAdmin;
 import interfaces.IProxy;
 import interfaces.IRemoteListener;
+import interfaces.IMobile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -144,7 +145,7 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 	
 	private void sendServer(String ip) throws RemoteException{
 		MobileServer ms = new MobileServer();
-		unexportObject(ms, true);
+		//unexportObject(ms, true);
 		IRemoteListener l = findListener(ip);
 		if(l!=null)
 			proxyStub.sendServer(ms, l, port);
@@ -152,10 +153,10 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 			System.out.println("Listener con ip "+ip+" non trovato");
 	}
 	
-	private void sendServerIP(String ip, String serverIp) throws RemoteException{
+	private void sendServerIP(String ip, IMobile stub) throws RemoteException{
 		IRemoteListener l = findListener(ip);
 		if(l!=null)
-			proxyStub.sendServerIP(l, serverIp, port);
+			proxyStub.sendServerIP(l, stub);
 		else
 			System.out.println("Listener con ip "+ip+" non trovato");
 	}
@@ -241,7 +242,7 @@ public class GameServer extends Activatable implements IGame, Unreferenced, IGam
 	}
 
 	@Override
-	public void notifyExported(String ip, String ipServer) throws RemoteException{
-		sendServerIP(ip, ipServer);
+	public void notifyExported(String ip, IMobile stub) throws RemoteException{
+		sendServerIP(ip, stub);
 	}
 }

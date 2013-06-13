@@ -19,6 +19,7 @@ public class ClientRemoteListener implements Serializable, IRemoteListener{
 	public String gameMap;
 	public boolean update;
 	public boolean exported = false;
+	public IMobile stub;
 	
 	public ClientRemoteListener(String ip){
 		this.ip = ip;
@@ -51,14 +52,13 @@ public class ClientRemoteListener implements Serializable, IRemoteListener{
 		try{
 			InetAddress ip = InetAddress.getLocalHost();
 			String ipp = ip.getHostAddress().toString();
-			System.out.println("Receved Mobile Server "+ms.toString()+" on machine: "+ipp);
+			System.out.println("Server : Receved Mobile Server "+ms.toString()+" on machine: "+ipp);
+			stub = (IMobile)UnicastRemoteObject.exportObject(ms);
 
-			Runtime.getRuntime().exec("rmiregistry "+port);
-			Thread.currentThread().sleep(5000);
-			Naming.rebind("//"+ipp+":"+port+"/MobileServer", ms);
-
-			IMobile server = (IMobile)Naming.lookup("//"+ipp+":"+port+"/MobileServer");
-			server.battle(this.ip);
+			//Registry registry = LocateRegistry.createRegistry(port);
+			//Runtime.getRuntime().exec("rmiregistry "+port);
+			//Thread.currentThread().sleep(3000);
+			//registry.rebind("//"+ipp+":"+port+"/MobileServer", ms);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,13 +67,13 @@ public class ClientRemoteListener implements Serializable, IRemoteListener{
 	}
 
 	@Override
-	public void recieveServerIP(String serverIp, int port) throws RemoteException {
-		System.out.println("Receved Mobile Server IP "+serverIp);
-		Registry registry = LocateRegistry.getRegistry(serverIp, port);
+	public void recieveServerIP(IMobile Serverstub) throws RemoteException {
+		System.out.println("Client : Receved Mobile Server stub ");
+		//Registry registry = LocateRegistry.getRegistry(serverIp, port);
 		//Registry registry = LocateRegistry.getRegistry("localhost", port);
 		try {
-			IMobile ms = (IMobile)registry.lookup("//"+serverIp+":"+port+"/MobileServer");
-			ms.battle(ip);
+			//IMobile ms = (IMobile)registry.lookup("//"+serverIp+":"+port+"/MobileServer");
+			Serverstub.battle(ip);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

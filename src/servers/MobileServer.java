@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class MobileServer extends UnicastRemoteObject implements IMobile, Serializable{
+public class MobileServer implements IMobile, Serializable{
 	
 	public  MobileServer() throws RemoteException {
 		super();

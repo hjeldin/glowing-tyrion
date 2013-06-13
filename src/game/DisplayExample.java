@@ -309,7 +309,7 @@ public class DisplayExample implements Serializable{
 						String str = gsp.infect(n.nd.ip, cdl.getIp());
 						System.out.println(str);
 						if(cdl.exported){
-							gsp.notifyExported(n.nd.ip, cdl.getIp());
+							gsp.notifyExported(n.nd.ip, cdl.stub);
 							cdl.exported = false;
 						}
 					}

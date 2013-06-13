@@ -171,16 +171,16 @@ public class ProxyServer extends PortableRemoteObject implements ILogin, IGame, 
 	}
 	
 	public void sendServer(IMobile ms, IRemoteListener l, int port) throws RemoteException {
-		unexportObject(ms);
+		//unexportObject(ms);
 		l.recieveServer(ms, port);
 	}
 
 	@Override
-	public void sendServerIP(IRemoteListener l, String serverIp, int port) throws RemoteException {
-		l.recieveServerIP(serverIp, port);
+	public void sendServerIP(IRemoteListener l, IMobile stub) throws RemoteException {
+		l.recieveServerIP(stub);
 	}
 
-	public void notifyExported(String ip, String ipServer) throws RemoteException{
-		GameServerStub.notifyExported(ip, ipServer);
+	public void notifyExported(String ip, IMobile stub) throws RemoteException{
+		GameServerStub.notifyExported(ip, stub);
 	}
 }
